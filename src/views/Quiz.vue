@@ -10,22 +10,85 @@ export default {
       totalCorrect: 0,
       questions: [
         {
-          q: 'Какой орган в человеческом теле является самым большим по площади поверхности?',
+          q: 'Что такое лобзик?',
           answers: [
             {
-              text: 'Сердце',
+              text: 'Инструмент для сверления отверстий',
               is_correct: false
             },
             {
-              text: 'Печень',
-              is_correct: false
-            },
-            {
-              text: 'Кожа',
+              text: 'Инструмент для точной пиления деталей по контуру',
               is_correct: true
             },
             {
-              text: 'Мозг',
+              text: 'Инструмент для измерения уровня горизонта',
+              is_correct: false
+            },
+            {
+              text: 'Инструмент для шлифования поверхностей',
+              is_correct: false
+            }
+          ]
+        },
+        {
+          q: 'Для каких работ лучше всего подходит шуруповёрт?',
+          answers: [
+            {
+              text: 'Резка дерева',
+              is_correct: false
+            },
+            {
+              text: 'Измерение длины',
+              is_correct: false
+            },
+            {
+              text: 'Закручивание и откручивание шурупов',
+              is_correct: true
+            },
+            {
+              text: 'Поднятие тяжелых предметов',
+              is_correct: false
+            }
+          ]
+        },
+        {
+          q: 'Вам нужно установить полку горизонтально. Какой инструмент вы используете?',
+          answers: [
+            {
+              text: 'Лобзик',
+              is_correct: false
+            },
+            {
+              text: 'Шуруповёрт.',
+              is_correct: false
+            },
+            {
+              text: 'Лазерный уровень',
+              is_correct: true
+            },
+            {
+              text: 'Ручной фрезер',
+              is_correct: false
+            }
+          ]
+        },
+        {
+          q: 'Какой инструмент используется для создания декоративных кромок на деталях из дерева?',
+          answers: [
+            {
+              text: 'Шуруповёрт.',
+              is_correct: false
+            },
+            {
+              text: 'Ручной фрезер',
+              is_correct: true
+            },
+            {
+              text: 'Лазерный уровень.',
+              is_correct: false
+            },
+            {
+              text: 'Лобзик.',
               is_correct: false
             }
           ]
@@ -42,14 +105,12 @@ export default {
         }, 1000)
       }
     },
-    methods: {
-      questionAnswered(is_correct) {
-        if (is_correct) {
-          this.totalCorrect++
-        }
-
-        this.questionsAnswered++
+    selectAnswer(is_correct) {
+      if (is_correct) {
+        this.totalCorrect++
       }
+
+      this.questionsAnswered++
     }
   },
   created() {
@@ -61,7 +122,7 @@ export default {
 <template>
   <div class="flex flex-col h-screen justify-between">
     <nav
-      class="flex flex-nowrap mb-auto items-center justify-between w-full py-8 px-8 md:py-6 border-b-2 md:px-16 text-lg font-bold text-gray-700 bg-white"
+      class="flex flex-nowrap items-center justify-between w-full py-8 px-8 md:py-6 border-b-2 md:px-16 text-lg font-bold text-gray-700 bg-white"
     >
       <IconAlternativeLogo />
       <div class="md:flex md:items-center md:w-auto" id="menu">
@@ -75,47 +136,59 @@ export default {
         </ul>
       </div>
     </nav>
-    <main class="flex flex-col md:flex-row mb-auto h-full">
-      <div class="w-full md:w-1/2 p-8 md:p-16">
-        <div class="flex gap-8 mb-24">
-          <h1 class="text-5xl font-bold">Времени осталось:</h1>
-          <p class="text-5xl font-bold text-green-600">{{ countDown }}</p>
-        </div>
-        <div class="text-2xl font-semibold mb-6">Вопрос:</div>
-
-        <p class="text-lg">{{ questions[0].q }}</p>
-      </div>
-      <div class="bg-[#EEEEEE] p-8 md:p-16 md:w-1/2 flex flex-col gap-4">
-        <div
-          class="border-2 rounded-lg bg-white px-16 py-5 hover:bg-orange-500 active:bg-orange-500"
-          v-for="answer in questions[0].answers"
-          :key="answer.text"
-        >
-          <div>
-            {{ answer.text }}
-          </div>
-        </div>
-      </div>
-    </main>
-    <footer class="h-24 flex items-center justify-between md:px-16 border-t-2">
-      <div class="text-2xl">
-        Вопрос:
-        <span class="text-2xl font-bold">{{ questionsAnswered }} / {{ questions.length }}</span>
-      </div>
-      <div class="bg-red-200 w-3/5">
-        <div class="h-2 rounded-full bg-gray-200">
-          <div
-            class="h-2 rounded-full bg-orange-500"
-            :style="{ width: `${(questionsAnswered / questions.length) * 100}%` }"
-          ></div>
-        </div>
-      </div>
-      <button
-        class="w-full md:w-[250px] bg-orange-500 text-white md:text-lg font-semibold py-2 px-4 rounded-lg"
+    <TransitionGroup name="fade" mode="out-in">
+      <div
+        class="flex flex-col h-screen justify-between mb-auto"
+        v-for="(question, qi) in questions"
+        :key="qi"
+        v-show="questionsAnswered === qi"
       >
-        Далее
-      </button>
-    </footer>
+        <main class="flex flex-col md:flex-row mb-auto h-full">
+          <div class="w-full md:w-1/2 p-8 md:p-16">
+            <div class="flex gap-8 mb-24">
+              <h1 class="text-5xl font-bold">Времени осталось:</h1>
+              <p class="text-5xl font-bold text-green-600">{{ countDown }}</p>
+            </div>
+            <div class="text-2xl font-semibold mb-6">Вопрос:</div>
+
+            <p class="text-lg">
+              {{ question.q }}
+            </p>
+          </div>
+          <div class="bg-[#EEEEEE] p-8 md:p-16 md:w-1/2 flex flex-col gap-4">
+            <div
+              class="border-2 rounded-lg bg-white px-16 py-5 hover:bg-orange-500 active:bg-orange-500"
+              v-for="(answer, answerInd) in question.answers"
+              :key="answerInd"
+              @click.prevent="selectAnswer(answer.is_correct)"
+            >
+              <div>
+                {{ answer.text }}
+              </div>
+            </div>
+          </div>
+        </main>
+        <footer class="h-24 flex items-center justify-between md:px-16 border-t-2">
+          <div class="text-2xl">
+            Вопрос:
+            <span class="text-2xl font-bold">{{ questionsAnswered }} / {{ questions.length }}</span>
+          </div>
+          <div class="bg-red-200 w-4/5">
+            <div class="h-2 rounded-full bg-gray-200">
+              <div
+                class="h-2 rounded-full bg-orange-500"
+                :style="{ width: `${(questionsAnswered / questions.length) * 100}%` }"
+              ></div>
+            </div>
+          </div>
+          <!-- <button
+            class="w-full md:w-[250px] bg-orange-500 text-white md:text-lg font-semibold py-2 px-4 rounded-lg"
+          >
+            Далее
+          </button> -->
+        </footer>
+      </div>
+    </TransitionGroup>
   </div>
 </template>
 
