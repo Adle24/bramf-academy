@@ -1,0 +1,10 @@
+<script>
+import { RouterView } from 'vue-router'
+export default {}
+</script>
+
+<template>
+  <div>
+    <RouterView />
+  </div>
+</template>
