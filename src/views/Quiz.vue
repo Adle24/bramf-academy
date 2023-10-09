@@ -188,6 +188,12 @@ export default {
           </button> -->
         </footer>
       </div>
+      <div
+        class="text-center mb-[550px] text-5xl font bold"
+        v-show="questionsAnswered == questions.length"
+      >
+        Спасибо мы с вами свяжемся
+      </div>
     </TransitionGroup>
   </div>
 </template>
