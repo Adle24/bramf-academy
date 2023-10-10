@@ -43,7 +43,7 @@ export default {
         тест, чтобы попасть на обучение.
       </p>
       <div>
-        <RouterLink to="/signup">
+        <RouterLink to="/signup/form">
           <button
             class="w-full md:w-1/3 bg-[#E1296D] text-white md:text-lg font-semibold py-2 px-4 rounded-lg"
           >
