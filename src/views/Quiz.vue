@@ -584,11 +584,6 @@ export default {
               ></div>
             </div>
           </div>
-          <!-- <button
-            class="w-full md:w-[250px] bg-orange-500 text-white md:text-lg font-semibold py-2 px-4 rounded-lg"
-          >
-            Далее
-          </button> -->
         </footer>
       </div>
     </TransitionGroup>
@@ -600,10 +595,10 @@ export default {
   opacity: 0;
 }
 .fade-enter-active {
-  transition: all 0.3s linear;
+  transition: all 0.2s linear;
 }
 .fade-leave-active {
-  transition: all 0.3s linear;
+  transition: all 0.2s linear;
   opacity: 0;
   position: absolute;
 }
