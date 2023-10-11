@@ -5,7 +5,7 @@ export const useDataStore = defineStore('data', {
   state: () => ({
     phoneStore: ''
   }),
-  
+
   getters: {},
 
   actions: {
@@ -19,10 +19,18 @@ export const useDataStore = defineStore('data', {
         username: name
       })
         .then(function (response) {
-
+          console.log(response)
+          if (response['status'] === 200) {
+            console.log('OK')
+            console.log(this.router)
+            this.router.push('/signup/phone')
+          }
         })
         .catch(function (error) {
+
         });
+
+        
     },
 
     async verifyPhone(phone, code) {
@@ -31,6 +39,10 @@ export const useDataStore = defineStore('data', {
         code: code
       })
         .then(function (response) {
+          if (response['status'] === 200) {
+            this.router.push('quiz')
+          }
+
         })
         .catch(function (error) {
         });

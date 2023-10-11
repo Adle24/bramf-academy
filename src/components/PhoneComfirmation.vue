@@ -33,10 +33,13 @@ export default {
 }
 </script>
 <template>
-  <button
-    class="flex flex-row items-center justify-evenly w-1/3 border-none border-gray-700 rounded-md outline-none py-1 bg-gray-100 text-gray-700 text-md font-semibold">
-    <i>&larr;</i> Назад к вводу данных
-  </button>
+  <RouterLink to="/signup/form">
+    <button
+      class="flex flex-row items-center justify-evenly w-1/3 border-none border-gray-700 rounded-md outline-none py-1 bg-gray-100 text-gray-700 text-md font-semibold">
+      <i>&larr;</i> Назад к вводу данных
+    </button>
+  </RouterLink>
+
   <h3 class="text-sm mt-24 mb-2">Академия «BRAMF ACADEMY»</h3>
   <h1 class="text-2xl md:text-5xl font-bold mb-4 text-[#333333]">Введите код из СМС</h1>
   <p class="text-slate-700 mb-10 md:text-md text-[#77777] font-normal leading-5">
@@ -72,13 +75,12 @@ export default {
 
         <div class="flex flex-col space-y-8">
           <div>
-            <RouterLink to="/quiz">
-              <button
-              @click="verifyPhone(this.phoneStore, this.code1 + this.code2 + this.code3 + this.code4)"
+            <!-- <RouterLink to="/quiz"> -->
+              <button @click="verifyPhone(this.phoneStore, this.code1 + this.code2 + this.code3 + this.code4)"
                 class="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-gradient-to-r from-[#ff512f] to-[#dd2476] border-none text-white text-sm shadow-sm">
                 Подтвердить номер
               </button>
-            </RouterLink>
+            <!-- </RouterLink> -->
 
             <!-- </RouterLink> -->
           </div>

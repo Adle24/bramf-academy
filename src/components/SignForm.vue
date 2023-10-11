@@ -1,6 +1,7 @@
 <script>
 import { mapActions, mapWritableState } from 'pinia'
 import { useDataStore } from '../stores/data'
+import Inputmask from 'inputmask'
 export default {
   name: 'SignForm',
   data() {
@@ -13,6 +14,11 @@ export default {
   methods: {
     ...mapActions(useDataStore, ['registerAndSendSms', 'setPhone']),
     ...mapWritableState (useDataStore, ['phoneStore'])
+  },
+
+  mounted() {
+    const element = this.$refs.inputTest;
+    Inputmask({ mask: "+7(999)999-99-99" }).mask(element);
   },
 
   beforeUnmount() {
@@ -45,26 +51,27 @@ export default {
           Номер телефона*
         </label>
         <input v-model="phone"
+          ref="inputTest" type="tel" placeholder="+7(___)___-__-__" 
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-orange-400 focus:shadow-outline"
-          id="tel" type="text" placeholder="Укажите ваш номер телефона" />
+          id="tel" />
       </div>
       <div class="mb-6">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="password"> ИИН* </label>
         <input v-model="iin"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-orange-400 focus:shadow-outline"
           id="IIN" type="text" placeholder="Укажите ваш ИИН" minlength="8" />
-        <p class="text-red-500 text-xs italic">Должен быть 16 символов</p>
+        <p class="text-red-500 text-xs italic">Должен быть 12 символов</p>
       </div>
       <div class="flex flex-col gap-3 items-center justify-between">
         <label class="text-sm text-gray-400">Нажимая на блок с галочкой вы соглашаетесь с
           <span class="text-orange-300">Условиями предоставления услуг </span>
           <input type="checkbox" class="accent-orange-500 mt-1" checked /></label>
-        <RouterLink to="/signup/phone">
+        <!-- <RouterLink to="/signup/phone"> -->
           <button @click="registerAndSendSms(phone, iin, name)"
             class="w-full md:w-[250px] bg-gradient-to-r from-[#ff512f] to-[#dd2476] text-white md:text-lg font-semibold py-2 px-4 rounded-lg">
             Начать тестирование
           </button>
-        </RouterLink>
+        <!-- </RouterLink> -->
       </div>
     </form>
   </div>
