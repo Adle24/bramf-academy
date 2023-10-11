@@ -1,6 +1,7 @@
 <script>
+import { mapActions, mapState } from 'pinia'
+import { useDataStore } from '../stores/data'
 import IconAlternativeLogo from '../components/icons/IconAlternativeLogo.vue'
-
 export default {
   components: { IconAlternativeLogo },
   data() {
@@ -496,6 +497,8 @@ export default {
     }
   },
   methods: {
+    ...mapActions(useDataStore, ['getQuestions']),
+
     countDownTimer() {
       if (this.countDown > 0) {
         setTimeout(() => {
@@ -518,6 +521,9 @@ export default {
   },
   created() {
     this.countDownTimer()
+  },
+  mounted() {
+    this.getQuestions()
   }
 }
 </script>
@@ -525,8 +531,7 @@ export default {
 <template>
   <div class="flex flex-col h-screen justify-between">
     <nav
-      class="flex flex-nowrap items-center justify-between w-full py-8 px-8 md:py-6 border-b-2 md:px-16 text-lg font-bold text-gray-700 bg-white"
-    >
+      class="flex flex-nowrap items-center justify-between w-full py-8 px-8 md:py-6 border-b-2 md:px-16 text-lg font-bold text-gray-700 bg-white">
       <IconAlternativeLogo />
       <div class="md:flex md:items-center md:w-auto" id="menu">
         <ul class="flex text-base text-gray-700 md:flex md:justify-between md:pt-0">
@@ -540,19 +545,15 @@ export default {
       </div>
     </nav>
     <TransitionGroup name="fade" mode="out-in">
-      <div
-        class="flex flex-col h-screen justify-between mb-auto"
-        v-for="(question, qi) in questions"
-        :key="qi"
-        v-show="questionsAnswered === qi"
-      >
+      <div class="flex flex-col h-screen justify-between mb-auto" v-for="(question, qi) in questions" :key="qi"
+        v-show="questionsAnswered === qi">
         <main class="flex flex-col md:flex-row mb-auto h-full">
           <div class="w-full md:w-1/2 p-8 md:p-16">
             <div class="flex gap-8 mb-24">
-              <h1 class="text-5xl font-bold">Времени осталось:</h1>
-              <p class="text-5xl font-bold text-green-600">{{ countDown }}</p>
+              <h1 class="text-xl md:text-5xl font-bold">Времени осталось:</h1>
+              <p class="text-xl md:text-5xl font-bold text-green-600">{{ countDown }}</p>
             </div>
-            <div class="text-2xl font-semibold mb-6">Вопрос:</div>
+            <div class="text-md md:text-2xl font-semibold mb-6">Вопрос:</div>
 
             <p class="text-lg">
               {{ question.q }}
@@ -560,48 +561,54 @@ export default {
           </div>
           <div class="bg-[#EEEEEE] p-8 md:p-16 md:w-1/2 flex flex-col gap-4">
             <div
-              class="border-2 rounded-lg bg-white px-16 py-5 hover:bg-orange-500 active:bg-orange-500"
-              v-for="(answer, answerInd) in question.answers"
-              :key="answerInd"
-              @click.prevent="selectAnswer(answer.is_correct)"
-            >
+              class="border-2 rounded-lg bg-white px-16 py-5 hover:text-white active:text-white hover:bg-gradient-to-r from-[#ff512f] to-[#dd2476] active:bg-gradient-to-r from-[#ff512f] to-[#dd2476]"
+              v-for="(answer, answerInd) in question.answers" :key="answerInd"
+              @click.prevent="selectAnswer(answer.is_correct)">
               <div>
                 {{ answer.text }}
               </div>
             </div>
           </div>
         </main>
-        <footer class="h-24 flex items-center justify-between md:px-16 border-t-2">
-          <div class="text-2xl">
-            Вопрос:
-            <span class="text-2xl font-bold">{{ questionsAnswered }} / {{ questions.length }}</span>
-          </div>
-          <div class="bg-red-200 w-4/5">
-            <div class="h-2 rounded-full bg-gray-200">
-              <div
-                class="h-2 rounded-full bg-orange-500"
-                :style="{ width: `${(questionsAnswered / questions.length) * 100}%` }"
-              ></div>
-            </div>
-          </div>
-        </footer>
       </div>
     </TransitionGroup>
+    <footer class="h-24 flex items-center justify-between px-8 py-8 md:px-16 border-t-2">
+      <div class="text-xs md:text-2xl">
+        Вопрос:
+        <span class="text-xs md:text-2xl font-bold">{{ questionsAnswered }} / {{ questions.length }}</span>
+      </div>
+      <div class="w-4/5">
+        <div class="h-1 md:h-2 rounded-full bg-gray-200">
+          <div class="h-1 md:h-2 rounded-full bg-gradient-to-r from-[#ff512f] to-[#dd2476]"
+            :style="{ width: `${(questionsAnswered / questions.length) * 100}%` }"></div>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
 <style scoped>
+/* .fade-enter-from, .fade-leave-to {
+  opacity: 0;
+  transform: translateX(300%);
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s, transform 2s;
+} */
 .fade-enter-from {
   opacity: 0;
 }
+
 .fade-enter-active {
-  transition: all 0.2s linear;
+  transition: all 1s linear;
 }
+
 .fade-leave-active {
-  transition: all 0.2s linear;
+  transition: all 0s linear;
   opacity: 0;
   position: absolute;
 }
+
 .fade-leave-to {
   opacity: 0;
 }

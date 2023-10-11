@@ -11,7 +11,7 @@ export default {
 
 <template>
   <nav
-    class="flex flex-nowrap items-center justify-between w-full pt-8 px-8 md:pt-16 md:px-16 text-lg font-bold text-gray-700 bg-white"
+    class="flex flex-nowrap items-center justify-between w-full pt-2 px-8 md:pt-9 md:px-16 text-lg font-bold text-gray-700 bg-white"
   >
     <IconLogo />
     <div class="md:flex md:items-center md:w-auto" id="menu">
@@ -45,7 +45,7 @@ export default {
       <div>
         <RouterLink to="/signup/form">
           <button
-            class="w-full md:w-1/3 bg-[#E1296D] text-white md:text-lg font-semibold py-2 px-4 rounded-lg"
+            class="w-full md:w-2/3 bg-gradient-to-r from-[#ff512f] to-[#dd2476] text-white md:text-lg font-semibold py-2 px-4 rounded-lg"
           >
             Пройти тестирование
           </button>

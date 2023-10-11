@@ -30,7 +30,7 @@ export default {
       <PhoneComfirmation v-else-if="$route.path == '/signup/phone'" />
     </div>
     <div class="w-full h-full md:w-1/2 md:order-2">
-      <img src="../assets/images/Rectangle 4.png" class="w-fit h-5/6" alt="Promo" />
+      <img src="../assets/images/rectangle.png" class="w-fit h-5/6" alt="Promo" />
     </div>
   </main>
 </template>
