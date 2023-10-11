@@ -6,10 +6,10 @@ export default {
   data() {
     return {
       countDown: 30,
-      code1: '',
-      code2: '',
-      code3: '',
-      code4: ''
+      code1: null,
+      code2: null,
+      code3: null,
+      code4: null
     }
   },
   computed: {
@@ -24,6 +24,28 @@ export default {
           this.countDownTimer()
         }, 1000)
       }
+    },
+
+    async onSubmit(evt) {
+      evt.preventDefault()
+
+      if (!this.code1 || !this.code2 || !this.code3 || !this.code4) return this.onReset()
+
+      const result = await this.verifyPhone(
+        this.phoneStore,
+        this.code1 + this.code2 + this.code3 + this.code4
+      )
+      if (result) return this.$router.push('/quiz')
+
+      return this.onReset()
+    },
+
+    onReset(evt) {
+      if (evt) evt.preventDefault()
+      this.code1 = null
+      this.code2 = null
+      this.code3 = null
+      this.code4 = null
     }
   },
   created() {
@@ -35,7 +57,8 @@ export default {
 <template>
   <RouterLink to="/signup/form">
     <button
-      class="flex flex-row items-center justify-evenly w-1/3 border-none border-gray-700 rounded-md outline-none py-1 bg-gray-100 text-gray-700 text-md font-semibold">
+      class="flex flex-row items-center justify-evenly w-1/3 border-none border-gray-700 rounded-md outline-none py-1 bg-gray-100 text-gray-700 text-md font-semibold"
+    >
       <i>&larr;</i> Назад к вводу данных
     </button>
   </RouterLink>
@@ -47,46 +70,65 @@ export default {
     подтверждения регистрации
   </p>
   <div>
-    <form action="" method="post">
+    <form @submit="onSubmit" @reset="onReset">
       <div class="flex flex-col space-y-6">
         <div class="font-medium text-md">Код из СМС</div>
         <div class="flex flex-row items-center justify-between w-full max-w-xs">
           <div class="w-16 h-16">
-            <input v-model="code1"
+            <input
+              v-model="code1"
               class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
-              type="text" name="" id="" />
+              type="text"
+              name=""
+              id=""
+            />
           </div>
           <div class="w-16 h-16">
-            <input v-model="code2"
+            <input
+              v-model="code2"
               class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
-              type="text" name="" id="" />
+              type="text"
+              name=""
+              id=""
+            />
           </div>
           <div class="w-16 h-16">
-            <input v-model="code3"
+            <input
+              v-model="code3"
               class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
-              type="text" name="" id="" />
+              type="text"
+              name=""
+              id=""
+            />
           </div>
           <div class="w-16 h-16">
-            <input v-model="code4"
+            <input
+              v-model="code4"
               class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
-              type="text" name="" id="" />
+              type="text"
+              name=""
+              id=""
+            />
           </div>
         </div>
 
         <div class="flex flex-col space-y-8">
           <div>
             <!-- <RouterLink to="/quiz"> -->
-              <button @click="verifyPhone(this.phoneStore, this.code1 + this.code2 + this.code3 + this.code4)"
-                class="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-gradient-to-r from-[#ff512f] to-[#dd2476] border-none text-white text-sm shadow-sm">
-                Подтвердить номер
-              </button>
+            <button
+              type="submit"
+              class="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-gradient-to-r from-[#ff512f] to-[#dd2476] border-none text-white text-sm shadow-sm"
+            >
+              Подтвердить номер
+            </button>
             <!-- </RouterLink> -->
 
             <!-- </RouterLink> -->
           </div>
           <div>
             <button
-              class="flex flex-row items-center justify-center text-center w-full border-2 border-[#999999] rounded-xl outline-none py-5 bg-white-700 text-gray-700 text-sm shadow-sm">
+              class="flex flex-row items-center justify-center text-center w-full border-2 border-[#999999] rounded-xl outline-none py-5 bg-white-700 text-gray-700 text-sm shadow-sm"
+            >
               Отправить код повторно через {{ countDown }}
             </button>
           </div>

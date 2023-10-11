@@ -1,31 +1,50 @@
 <script>
 import { mapActions, mapWritableState } from 'pinia'
 import { useDataStore } from '../stores/data'
-import Inputmask from 'inputmask'
+
+import { vMaska } from 'maska'
+
 export default {
   name: 'SignForm',
   data() {
     return {
-      phone: '',
-      name: '',
-      iin: ''
+      phone: null,
+      name: null,
+      iin: null
     }
   },
+  directives: { maska: vMaska },
   methods: {
     ...mapActions(useDataStore, ['registerAndSendSms', 'setPhone']),
-    ...mapWritableState (useDataStore, ['phoneStore'])
-  },
+    ...mapWritableState(useDataStore, ['phoneStore']),
 
-  mounted() {
-    const element = this.$refs.inputTest;
-    Inputmask({ mask: "+7(999)999-99-99" }).mask(element);
-  },
+    async onSubmit(evt) {
+      evt.preventDefault()
 
+      if (this.phone) this.phone = this.phone.replaceAll(' ', '')
+      if (this.iin) this.iin = this.iin.replaceAll(' ', '')
+
+      if (!this.phone || !this.name || !this.iin) return alert('Заполните все поля')
+      if (this.phone.length != 16) return alert('Неправильный номер телефона')
+      if (this.iin.length != 12) return alert('Неправильный ИНН')
+
+      const result = await this.registerAndSendSms(this.phone, this.iin, this.name)
+      if (result) return this.$router.push('/signup/phone')
+      return alert('Ошибка на стороне сервера')
+    },
+
+    onReset(evt) {
+      if (evt) evt.preventDefault()
+
+      this.phone = null
+      this.iin = null
+      this.name = null
+    }
+  },
   beforeUnmount() {
     this.setPhone(this.phone)
   }
 }
-
 </script>
 
 <template>
@@ -39,38 +58,58 @@ export default {
   </p>
 
   <div class="w-full">
-    <form>
+    <form @submit="onSubmit" @reset="onReset">
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="username"> ФИО* </label>
-        <input v-model="name"
+        <input
+          v-model="name"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-orange-400 focus:shadow-outline"
-          id="username" type="text" placeholder="Укажите ваше ФИО" />
+          id="username"
+          type="text"
+          placeholder="Укажите ваше ФИО"
+        />
       </div>
+      <!-- ref="input_phone"
+          type="tel"
+          placeholder="+7 (___) ___ - __ - __" -->
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
           Номер телефона*
         </label>
-        <input v-model="phone"
-          ref="inputTest" type="tel" placeholder="+7(___)___-__-__" 
+        <input
+          v-model="phone"
+          v-maska
+          data-maska="+7 (###) ###-##-##"
+          placeholder="+7 (___) ___-__-__"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-orange-400 focus:shadow-outline"
-          id="tel" />
+          id="tel"
+        />
       </div>
       <div class="mb-6">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="password"> ИИН* </label>
-        <input v-model="iin"
+        <input
+          v-model="iin"
+          v-maska
+          data-maska="### ### ### ###"
+          placeholder="Укажите ваш ИИН"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-orange-400 focus:shadow-outline"
-          id="IIN" type="text" placeholder="Укажите ваш ИИН" minlength="8" />
+          id="IIN"
+        />
         <p class="text-red-500 text-xs italic">Должен быть 12 символов</p>
       </div>
       <div class="flex flex-col gap-3 items-center justify-between">
-        <label class="text-sm text-gray-400">Нажимая на блок с галочкой вы соглашаетесь с
+        <label class="text-sm text-gray-400"
+          >Нажимая на блок с галочкой вы соглашаетесь с
           <span class="text-orange-300">Условиями предоставления услуг </span>
-          <input type="checkbox" class="accent-orange-500 mt-1" checked /></label>
+          <input type="checkbox" class="accent-orange-500 mt-1" checked
+        /></label>
         <!-- <RouterLink to="/signup/phone"> -->
-          <button @click="registerAndSendSms(phone, iin, name)"
-            class="w-full md:w-[250px] bg-gradient-to-r from-[#ff512f] to-[#dd2476] text-white md:text-lg font-semibold py-2 px-4 rounded-lg">
-            Начать тестирование
-          </button>
+        <button
+          type="submit"
+          class="w-full md:w-[250px] bg-gradient-to-r from-[#ff512f] to-[#dd2476] text-white md:text-lg font-semibold py-2 px-4 rounded-lg"
+        >
+          Начать тестирование
+        </button>
         <!-- </RouterLink> -->
       </div>
     </form>
