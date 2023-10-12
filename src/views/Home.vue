@@ -1,10 +1,35 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
+import { mapActions } from 'pinia'
+import { useDataStore } from '../stores/data'
+
 import IconLogo from '../components/icons/IconLogo.vue'
+
+import adjustment from '../components/TitleAdjustment.vue'
+import measurer from '../components/TitleMeasurer.vue'
+import seller from '../components/TitleSeller.vue'
 
 export default {
   components: {
-    IconLogo
+    RouterLink,
+    RouterView,
+
+    IconLogo,
+
+    adjustment,
+    measurer,
+    seller
+  },
+  data() {
+    return {
+      testName: this.$route.params.testName
+    }
+  },
+  methods: {
+    ...mapActions(useDataStore, ['setTestName'])
+  },
+  unmounted() {
+    this.setTestName(this.testName)
   }
 }
 </script>
@@ -41,19 +66,9 @@ export default {
     <div class="w-full md:w-1/2 p-8 md:p-16 order-2 md:order-1">
       <h3 class="text-sm mb-2">Академия «BRAMF ACADEMY»</h3>
       <h1 class="text-2xl md:text-5xl font-bold mb-4">Присоединяйтесь к команде BRAMF!</h1>
-      <p class="text-slate-700 mb-2 md:text-lg">
-        BRAMF - это фабричное производство, сборка нашей продукции требует особых знаний. И мы
-        готовы поделиться с вами этими знаниями на нашем специальном курсе.
-      </p>
-      <p class="text-gray-800 mb-2 md:text-lg">
-        Сейчас мы увеличиваем штат сборщиков мебели по всему Казахстану. Курс по сборке мебели
-        направлен не только на получение знаний, но и на практику, стажировку и трудоустройство.<br />
-        <span class="font-semibold">Средняя зарплата мастера - от 600 000 тг.</span>
-      </p>
-      <p class="mb-6 md:text-lg">
-        Проезд, проживание и питание на время обучения оплачивает компания. Пройдите двухэтапный
-        тест, чтобы попасть на обучение.
-      </p>
+      <adjustment v-if="testName === 'adjustment'" />
+      <measurer v-else-if="testName === 'measurer'" />
+      <seller v-else-if="testName === 'seller'" />
       <div>
         <RouterLink to="/signup/form">
           <button
@@ -65,7 +80,24 @@ export default {
       </div>
     </div>
     <div class="w-full md:w-1/2 p-4 md:order-2">
-      <img src="../assets/images/promo.png" class="w-fit h-5/6" alt="Promo" />
+      <img
+        src="../assets/images/adjustment.png"
+        v-if="testName === 'adjustment'"
+        class="w-fit h-5/6"
+        alt="adjustment"
+      />
+      <img
+        src="../assets/images/measurer.png"
+        v-else-if="testName === 'measurer'"
+        class="w-fit h-5/6"
+        alt="measurer"
+      />
+      <img
+        src="../assets/images/seller.png"
+        v-else-if="testName === 'seller'"
+        class="w-fit h-5/6"
+        alt="seller"
+      />
     </div>
   </main>
   <RouterView />

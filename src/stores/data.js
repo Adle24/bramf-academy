@@ -6,7 +6,13 @@ export const useDataStore = defineStore('data', {
     questions: [],
     phoneStore: '+7(706)406-00-66',
     iinStore: '',
-    nameStore: ''
+    nameStore: '',
+    testName: null,
+    testIds: {
+      adjustment: 1,
+      measurer: 2,
+      seller: 3
+    }
   }),
   getters: {
     processedQuestions(state) {
@@ -15,6 +21,9 @@ export const useDataStore = defineStore('data', {
     }
   },
   actions: {
+    setTestName(testNameParam) {
+      this.testName = testNameParam
+    },
     setPhone(phoneParam) {
       this.phoneStore = phoneParam
     },
