@@ -123,16 +123,16 @@ export default {
     </button>
   </RouterLink>
 
-  <h3 class="text-sm mt-24 mb-2">Академия «BRAMF ACADEMY»</h3>
+  <h3 class="font-roboto text-sm md:text-base mt-24 mb-2">Академия «BRAMF ACADEMY»</h3>
   <h1 class="text-2xl md:text-5xl font-bold mb-4 text-[#333333]">Введите код из СМС</h1>
-  <p class="text-slate-700 mb-10 md:text-md text-[#77777] font-normal leading-5">
+  <p class="font-roboto text-slate-700 mb-10 md:text-base text-[#77777] font-normal leading-5">
     На номер <span class="font-bold">{{ this.phoneStore }}</span> было отправлено SMS с кодом для
     подтверждения регистрации
   </p>
   <div>
     <form @submit="onSubmit" @reset="onReset">
       <div class="flex flex-col space-y-6">
-        <div class="font-medium text-md">Код из СМС</div>
+        <div class="font-roboto font-medium text-md md:text-sm">Код из СМС</div>
         <div id="otp" class="flex flex-row items-center justify-between w-full max-w-xs">
           <div class="w-16 h-16">
             <input
@@ -173,7 +173,7 @@ export default {
             <!-- <RouterLink to="/quiz"> -->
             <button
               type="submit"
-              class="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-gradient-to-r from-[#ff512f] to-[#dd2476] border-none text-white text-sm shadow-sm"
+              class="font-roboto flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-gradient-to-r from-[#ff512f] to-[#dd2476] border-none text-white text-sm shadow-sm"
             >
               Подтвердить номер
             </button>
@@ -184,7 +184,7 @@ export default {
           <div>
             <button
               v-if="!show_resend"
-              class="flex flex-row items-center justify-center text-center w-full border-2 border-[#999999] rounded-xl outline-none py-5 bg-white-700 text-gray-700 text-sm shadow-sm"
+              class="font-roboto flex flex-row items-center justify-center text-center w-full border-2 border-[#999999] rounded-xl outline-none py-5 bg-white-700 text-gray-700 text-sm shadow-sm"
             >
               Отправить код повторно через {{ countDown }}
             </button>

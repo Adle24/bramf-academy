@@ -35,24 +35,14 @@ export default {
 </script>
 
 <template>
-  <!-- <div class="flex flex-col justify-between">
-    <nav class="bg-slate-500 flex flex-nowrap justify-between md:px-[100px] md:pt-20">
-      <IconLogo />
-      <ul class="flex md:justify-between md:p-2.5 font-roboto">
-        <li class="md:mr-6 text-2xl">Консультация по номеру</li>
-        <li class="md:mr-20 text-2xl">+7 (777) 777 77 77</li>
-        <li class="md:mr-10 text-xl">Рус</li>
-        <li>Каз</li>
-      </ul>
-    </nav>
-    <main class="bg-blue-500"></main>
-  </div> -->
   <nav
-    class="flex flex-nowrap items-center justify-between w-full pt-2 px-8 md:pt-9 md:px-16 text-lg font-bold text-gray-700 bg-white"
+    class="flex flex-nowrap items-center justify-between w-full pt-2 px-8 md:pt-9 md:px-16 font-bold text-gray-700 bg-white"
   >
     <IconLogo />
     <div class="md:flex md:items-center md:w-auto" id="menu">
-      <ul class="flex text-base text-gray-700 md:flex md:justify-between md:pt-0">
+      <ul
+        class="font-roboto flex text-base font-medium md:text-xl text-gray-700 md:flex md:justify-between md:pt-0"
+      >
         <li>
           <a class="p-3 py-1 block hover:text-red-400 text-red-500" href="#">Рус</a>
         </li>
@@ -64,15 +54,17 @@ export default {
   </nav>
   <main class="flex flex-col md:flex-row">
     <div class="w-full md:w-1/2 p-8 md:p-16 order-2 md:order-1">
-      <h3 class="text-sm mb-2">Академия «BRAMF ACADEMY»</h3>
-      <h1 class="text-2xl md:text-5xl font-bold mb-4">Присоединяйтесь к команде BRAMF!</h1>
+      <h3 class="font-roboto font-normal text-sm md:text-xl mb-2">Академия «BRAMF ACADEMY»</h3>
+      <h1 class="font-roboto text-2xl md:text-5xl font-bold mb-4">
+        Присоединяйтесь к команде BRAMF!
+      </h1>
       <adjustment v-if="testName === 'adjustment'" />
       <measurer v-else-if="testName === 'measurer'" />
       <seller v-else-if="testName === 'seller'" />
       <div>
         <RouterLink to="/signup/form">
           <button
-            class="w-full md:w-2/3 bg-gradient-to-r from-[#ff512f] to-[#dd2476] text-white md:text-lg font-semibold py-2 px-4 rounded-lg"
+            class="font-roboto w-full md:w-2/3 bg-gradient-to-r from-[#ff512f] to-[#dd2476] text-white md:text-lg font-semibold py-2 px-4 rounded-lg"
           >
             Пройти тестирование
           </button>

@@ -712,7 +712,9 @@ export default {
     >
       <IconAlternativeLogo />
       <div class="md:flex md:items-center md:w-auto" id="menu">
-        <ul class="flex text-base text-gray-700 md:flex md:justify-between md:pt-0">
+        <ul
+          class="font-roboto flex text-base md:text-xl font-medium text-gray-700 md:flex md:justify-between md:pt-0"
+        >
           <li>
             <a class="p-3 py-1 block hover:text-red-400 text-red-500" href="#">Рус</a>
           </li>
@@ -731,7 +733,7 @@ export default {
           v-show="questionsAnswered === qi"
         >
           <main class="flex flex-col md:flex-row mb-auto h-full">
-            <div class="w-full md:w-1/2 p-8 md:p-16">
+            <div class="w-full font-roboto md:w-1/2 p-8 md:p-16">
               <div class="flex gap-8 mb-3 md:mb-24">
                 <h1 class="text-xl md:text-5xl font-bold">Времени осталось:</h1>
                 <p class="text-xl md:text-5xl font-bold text-green-600">{{ formattedTime }}</p>
@@ -744,7 +746,7 @@ export default {
             </div>
             <div class="bg-[#EEEEEE] p-8 md:p-16 md:w-1/2 flex flex-col gap-4">
               <div
-                class="border-2 rounded-lg bg-white px-16 py-5 hover:text-white active:text-white hover:bg-gradient-to-r from-[#ff512f] to-[#dd2476] active:bg-gradient-to-r from-[#ff512f] to-[#dd2476]"
+                class="font-roboto border-2 rounded-lg bg-white px-16 py-5 hover:text-white active:text-white hover:bg-gradient-to-r from-[#ff512f] to-[#dd2476] active:bg-gradient-to-r from-[#ff512f] to-[#dd2476]"
                 v-for="(answer, answerInd) in question.answers"
                 :key="answerInd"
                 @click.prevent="selectAnswer(question.id, answer.id)"
@@ -762,7 +764,7 @@ export default {
       class="h-24 flex flex-col gap-3 md:flex-row md:items-center justify-between px-8 py-8 md:px-16 border-t-2"
     >
       <template v-if="questions">
-        <div class="text-xs md:text-2xl">
+        <div class="font-roboto text-xs md:text-2xl">
           Вопрос:
           <span class="text-xs md:text-2xl font-bold"
             >{{ questionsAnswered }} / {{ questions.length }}</span
