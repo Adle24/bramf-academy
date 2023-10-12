@@ -13,6 +13,23 @@ export default {
       code4: null
     }
   },
+  watch: {
+    // code1: {
+    //   handler() {
+    //     this.$refs.code2.focus()
+    //   }
+    // },
+    // code2: {
+    //   handler() {
+    //     this.$refs.code3.focus()
+    //   }
+    // },
+    // code3: {
+    //   handler() {
+    //     this.$refs.code4.focus()
+    //   }
+    // }
+  },
   computed: {
     ...mapState(useDataStore, ['phoneStore', 'nameStore', 'iinStore'])
   },
@@ -22,7 +39,7 @@ export default {
       if (this.countDown > 0) {
         setTimeout(() => {
           this.countDown -= 1
-          console.log(this.countDown)
+          // console.log(this.countDown)
           if (this.countDown == 0) {
             this.show_resend = true
           }
@@ -51,10 +68,48 @@ export default {
       this.code2 = null
       this.code3 = null
       this.code4 = null
+    },
+
+    pasteOTP(event) {
+      event.preventDefault()
+      let inputs = document.querySelectorAll('#otp > div > *[id]')
+      let pasteVal = event.clipboardData.getData('text').split('')
+      for (let index = 0; index < inputs.length; index++) {
+        this[`code${index + 1}`] = pasteVal[index]
+      }
     }
   },
   created() {
     this.countDownTimer()
+  },
+  mounted() {
+    const editor = document.getElementById('first')
+    editor.onpaste = this.pasteOTP
+    editor.focus()
+
+    const inputs = document.querySelectorAll('#otp > div > *[id]')
+    for (let i = 0; i < inputs.length; i++) {
+      inputs[i].addEventListener('input', (event) => {
+        if (event.inputType === 'deleteContentBackward') {
+          this[`code${i + 1}`] = ''
+          if (i !== 0) inputs[i - 1].focus()
+        } else {
+          const value = parseInt(event.data)
+          if (isNaN(value)) {
+            this[`code${i + 1}`] = ''
+            event.preventDefault()
+            return
+          } else if (i === inputs.length - 1 && inputs[i].value !== '') {
+            this[`code${i + 1}`] = event.data
+            event.preventDefault()
+          } else {
+            this[`code${i + 1}`] = event.data
+            if (i !== inputs.length - 1) inputs[i + 1].focus()
+            event.preventDefault()
+          }
+        }
+      })
+    }
   }
 }
 </script>
@@ -77,45 +132,37 @@ export default {
     <form @submit="onSubmit" @reset="onReset">
       <div class="flex flex-col space-y-6">
         <div class="font-medium text-md">Код из СМС</div>
-        <div class="flex flex-row items-center justify-between w-full max-w-xs">
+        <div id="otp" class="flex flex-row items-center justify-between w-full max-w-xs">
           <div class="w-16 h-16">
             <input
               v-model="code1"
               class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
-              type="text"
-              maxlength="1"
-              name=""
-              id=""
+              type="tel"
+              id="first"
             />
           </div>
           <div class="w-16 h-16">
             <input
               v-model="code2"
               class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
-              type="text"
-              maxlength="1"
-              name=""
-              id=""
+              type="tel"
+              id="second"
             />
           </div>
           <div class="w-16 h-16">
             <input
               v-model="code3"
               class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
-              type="text"
-              maxlength="1"
-              name=""
-              id=""
+              type="tel"
+              id="third"
             />
           </div>
           <div class="w-16 h-16">
             <input
               v-model="code4"
               class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
-              type="text"
-              maxlength="1"
-              name=""
-              id=""
+              type="tel"
+              id="fourth"
             />
           </div>
         </div>
