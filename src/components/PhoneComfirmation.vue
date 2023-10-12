@@ -93,6 +93,7 @@ export default {
         if (event.inputType === 'deleteContentBackward') {
           this[`code${i + 1}`] = ''
           if (i !== 0) inputs[i - 1].focus()
+          event.preventDefault()
         } else {
           const value = parseInt(event.data)
           if (isNaN(value)) {
