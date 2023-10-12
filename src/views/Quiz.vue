@@ -6,7 +6,7 @@ export default {
   components: { IconAlternativeLogo },
   data() {
     return {
-      countDown: 30,
+      countDown: 600,
       questionsAnswered: 0,
       totalCorrect: 0,
       questions: [
@@ -664,10 +664,19 @@ export default {
     }
   },
   computed: {
-    ...mapState(useDataStore, ['phoneStore'])
+    ...mapState(useDataStore, ['phoneStore', 'processedQuestions']),
+    formattedTime() {
+      let minutes = Math.floor(this.countDown / 60)
+      let seconds = this.countDown - minutes * 60
+      return this.str_pad_left(minutes, '0', 2) + ':' + this.str_pad_left(seconds, '0', 2)
+    }
   },
   methods: {
     ...mapActions(useDataStore, ['getQuestions', 'postQuestion']),
+
+    str_pad_left(string, pad, length) {
+      return (new Array(length + 1).join(pad) + string).slice(-length)
+    },
 
     countDownTimer() {
       if (this.countDown > 0) {
@@ -695,6 +704,7 @@ export default {
     this.countDownTimer()
   },
   mounted() {
+    console.log(this.processedQuestions)
     this.getQuestions()
   }
 }
@@ -726,11 +736,11 @@ export default {
       >
         <main class="flex flex-col md:flex-row mb-auto h-full">
           <div class="w-full md:w-1/2 p-8 md:p-16">
-            <div class="flex gap-8 mb-24">
+            <div class="flex gap-8 mb-3 md:mb-24">
               <h1 class="text-xl md:text-5xl font-bold">Времени осталось:</h1>
-              <p class="text-xl md:text-5xl font-bold text-green-600">{{ countDown }}</p>
+              <p class="text-xl md:text-5xl font-bold text-green-600">{{ formattedTime }}</p>
             </div>
-            <div class="text-md md:text-2xl font-semibold mb-6">Вопрос:</div>
+            <div class="text-md md:text-2xl font-semibold mb-3 md:mb-6">Вопрос:</div>
 
             <p class="text-lg">
               {{ question.q }}
@@ -753,7 +763,9 @@ export default {
         </main>
       </div>
     </TransitionGroup>
-    <footer class="h-24 flex items-center justify-between px-8 py-8 md:px-16 border-t-2">
+    <footer
+      class="h-24 flex flex-col gap-3 md:flex-row md:items-center justify-between px-8 py-8 md:px-16 border-t-2"
+    >
       <div class="text-xs md:text-2xl">
         Вопрос:
         <span class="text-xs md:text-2xl font-bold"

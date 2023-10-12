@@ -6,6 +6,7 @@ export default {
   data() {
     return {
       countDown: 30,
+      show_resend: false,
       code1: null,
       code2: null,
       code3: null,
@@ -13,15 +14,18 @@ export default {
     }
   },
   computed: {
-    ...mapState(useDataStore, ['phoneStore'])
+    ...mapState(useDataStore, ['phoneStore', 'nameStore', 'iinStore'])
   },
   methods: {
-    ...mapActions(useDataStore, ['verifyPhone']),
+    ...mapActions(useDataStore, ['verifyPhone', 'registerAndSendSms', 'sendSms']),
     countDownTimer() {
       if (this.countDown > 0) {
         setTimeout(() => {
           this.countDown -= 1
           console.log(this.countDown)
+          if (this.countDown == 0) {
+            this.show_resend = true
+          }
           this.countDownTimer()
         }, 1000)
       }
@@ -131,9 +135,23 @@ export default {
           </div>
           <div>
             <button
+              v-if="!show_resend"
               class="flex flex-row items-center justify-center text-center w-full border-2 border-[#999999] rounded-xl outline-none py-5 bg-white-700 text-gray-700 text-sm shadow-sm"
             >
               Отправить код повторно через {{ countDown }}
+            </button>
+            <button
+              v-if="show_resend"
+              @click="
+                sendSms(
+                  this.phoneStore.replace(/\s/g, ''),
+                  this.iinStore.replace(/\s/g, ''),
+                  this.nameStore
+                )
+              "
+              class="flex flex-row items-center justify-center text-center w-full border-2 border-[#F46B45] rounded-xl outline-none py-5 bg-white-700 text-[#F46B45] text-sm shadow-sm"
+            >
+              Отправить код повторно
             </button>
           </div>
         </div>

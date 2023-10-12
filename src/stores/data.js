@@ -3,12 +3,26 @@ import axios from 'axios'
 
 export const useDataStore = defineStore('data', {
   state: () => ({
-    phoneStore: '+77012012199'
+    questions: [],
+    phoneStore: '+7(706)406-00-66',
+    iinStore: '',
+    nameStore: ''
   }),
-  getters: {},
+  getters: {
+    processedQuestions(state) {
+      console.log(this.questions)
+      return state.questions
+    }
+  },
   actions: {
     setPhone(phoneParam) {
       this.phoneStore = phoneParam
+    },
+    setIIN(iinParam) {
+      this.iinStore = iinParam
+    },
+    setName(nameParam) {
+      this.nameStore = nameParam
     },
     registerAndSendSms(phone, iin, name) {
       return new Promise(async (resolve, reject) => {
@@ -54,21 +68,20 @@ export const useDataStore = defineStore('data', {
     },
 
     async getQuestions() {
-      await axios
+      const data = await axios
         .get('http://185.146.3.144:8888/api/question/list', {
           params: {
             phone: this.phoneStore
           }
         })
-        .then((response) => {
-          console.log(response)
-        })
+        .then((response) => {})
         .catch((error) => {
           console.log(error)
         })
         .finally(() => {
           // always executed
         })
+      console.log(data)
     },
 
     async postQuestion(testTypeId, phone, questionId, answerId) {
@@ -78,6 +91,21 @@ export const useDataStore = defineStore('data', {
           id_answer: answerId,
           id_test_list: testTypeId,
           phone: phone
+        })
+        .then((response) => {
+          console.log(response)
+          if (response['status'] === 200) {
+            console.log('OK')
+          }
+        })
+        .catch((error) => {})
+    },
+    async sendSms(phone, iin, name) {
+      await axios
+        .post('http://185.146.3.144:8888/api/register', {
+          phone: phone,
+          iin: iin,
+          username: name
         })
         .then((response) => {
           console.log(response)

@@ -15,7 +15,7 @@ export default {
   },
   directives: { maska: vMaska },
   methods: {
-    ...mapActions(useDataStore, ['registerAndSendSms', 'setPhone']),
+    ...mapActions(useDataStore, ['registerAndSendSms', 'setPhone', 'setIIN', 'setName']),
     ...mapWritableState(useDataStore, ['phoneStore']),
 
     async onSubmit(evt) {
@@ -43,6 +43,8 @@ export default {
   },
   beforeUnmount() {
     this.setPhone(this.phone)
+    this.setIIN(this.iin)
+    this.setName(this.name)
   }
 }
 </script>
