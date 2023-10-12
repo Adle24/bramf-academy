@@ -21,6 +21,7 @@ export default {
       if (this.countDown > 0) {
         setTimeout(() => {
           this.countDown -= 1
+          console.log(this.countDown)
           this.countDownTimer()
         }, 1000)
       }
@@ -49,7 +50,6 @@ export default {
     }
   },
   created() {
-    console.log(this.phoneStore)
     this.countDownTimer()
   }
 }
@@ -57,9 +57,9 @@ export default {
 <template>
   <RouterLink to="/signup/form">
     <button
-      class="flex flex-row items-center justify-evenly w-1/3 border-none border-gray-700 rounded-md outline-none py-1 bg-gray-100 text-gray-700 text-md font-semibold"
+      class="flex flex-row items-center justify-evenly w-full md:w-1/3 border-none border-gray-700 rounded-md outline-none py-1 bg-gray-100 text-gray-700 text-md font-semibold"
     >
-      <i>&larr;</i> Назад к вводу данных
+      <i class="hidden">&larr;</i> Назад к вводу данных
     </button>
   </RouterLink>
 

@@ -10,6 +10,18 @@ export default {
 </script>
 
 <template>
+  <!-- <div class="flex flex-col justify-between">
+    <nav class="bg-slate-500 flex flex-nowrap justify-between md:px-[100px] md:pt-20">
+      <IconLogo />
+      <ul class="flex md:justify-between md:p-2.5 font-roboto">
+        <li class="md:mr-6 text-2xl">Консультация по номеру</li>
+        <li class="md:mr-20 text-2xl">+7 (777) 777 77 77</li>
+        <li class="md:mr-10 text-xl">Рус</li>
+        <li>Каз</li>
+      </ul>
+    </nav>
+    <main class="bg-blue-500"></main>
+  </div> -->
   <nav
     class="flex flex-nowrap items-center justify-between w-full pt-2 px-8 md:pt-9 md:px-16 text-lg font-bold text-gray-700 bg-white"
   >
