@@ -3,10 +3,14 @@ import axios from 'axios'
 
 export const useDataStore = defineStore('data', {
   state: () => ({
-    phoneStore: '+77012012199'
+    phoneStore: '+77012012199',
+    testName: null
   }),
   getters: {},
   actions: {
+    setTestName(testNameParam) {
+      this.testName = testNameParam
+    },
     setPhone(phoneParam) {
       this.phoneStore = phoneParam
     },
