@@ -4,7 +4,12 @@ import axios from 'axios'
 export const useDataStore = defineStore('data', {
   state: () => ({
     phoneStore: '+77012012199',
-    testName: null
+    testName: null,
+    testIds: {
+      adjustment: 1,
+      measurer: 2,
+      seller: 3
+    }
   }),
   getters: {},
   actions: {
