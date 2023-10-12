@@ -71,25 +71,21 @@ export const useDataStore = defineStore('data', {
         })
     },
 
-    async postQuestion(phone, questionId, answerId) {
+    async postQuestion(testTypeId, phone, questionId, answerId) {
       await axios
-        .post('http://185.146.3.144:8888/question/answer', {
-          phone: phone,
+        .post('http://185.146.3.144:8888/api/question/answer', {
           id_question: questionId,
-          id_answer: answerId
+          id_answer: answerId,
+          id_test_list: testTypeId,
+          phone: phone
         })
         .then((response) => {
           console.log(response)
           if (response['status'] === 200) {
             console.log('OK')
-            resolve(true)
-          } else {
-            resolve(false)
           }
         })
-        .catch((error) => {
-          resolve(false)
-        })
+        .catch((error) => {})
     }
   }
 })
