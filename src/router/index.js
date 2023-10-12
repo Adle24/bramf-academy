@@ -6,11 +6,11 @@ import Result from '../views/Result.vue'
 import PhoneComfirmation from '../components/PhoneComfirmation.vue'
 import SignForm from '../components/SignForm.vue'
 
- const router = createRouter({
+const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      path: '/adjustment',
       name: 'home',
       component: Home
     },

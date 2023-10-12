@@ -79,6 +79,7 @@ export default {
               v-model="code1"
               class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
               type="text"
+              maxlength="1"
               name=""
               id=""
             />
@@ -88,6 +89,7 @@ export default {
               v-model="code2"
               class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
               type="text"
+              maxlength="1"
               name=""
               id=""
             />
@@ -97,6 +99,7 @@ export default {
               v-model="code3"
               class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
               type="text"
+              maxlength="1"
               name=""
               id=""
             />
@@ -106,6 +109,7 @@ export default {
               v-model="code4"
               class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
               type="text"
+              maxlength="1"
               name=""
               id=""
             />
