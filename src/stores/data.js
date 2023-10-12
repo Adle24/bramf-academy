@@ -3,8 +3,8 @@ import axios from 'axios'
 
 export const useDataStore = defineStore('data', {
   state: () => ({
-    questions: [],
-    phoneStore: '+7(706)406-00-66',
+    questions: null,
+    phoneStore: '+7(778)081-66-49',
     iinStore: '',
     nameStore: '',
     testName: null,
@@ -80,26 +80,32 @@ export const useDataStore = defineStore('data', {
       const data = await axios
         .get('http://185.146.3.144:8888/api/question/list', {
           params: {
-            phone: this.phoneStore
+            phone: this.phoneStore,
+            id_test_list: this.testIds[this.testName]
           }
         })
-        .then((response) => {})
+        .then((response) => {
+          if (response['status'] === 200) {
+            this.questions = response.data.questions
+          }
+        })
         .catch((error) => {
           console.log(error)
         })
         .finally(() => {
           // always executed
+          console.log(this.questions)
         })
       console.log(data)
     },
 
-    async postQuestion(testTypeId, phone, questionId, answerId) {
+    async postQuestion(questionId, answerId) {
       await axios
         .post('http://185.146.3.144:8888/api/question/answer', {
           id_question: questionId,
           id_answer: answerId,
-          id_test_list: testTypeId,
-          phone: phone
+          id_test_list: this.testIds[this.testName],
+          phone: this.phoneStore
         })
         .then((response) => {
           console.log(response)
@@ -109,6 +115,7 @@ export const useDataStore = defineStore('data', {
         })
         .catch((error) => {})
     },
+
     async sendSms(phone, iin, name) {
       await axios
         .post('http://185.146.3.144:8888/api/register', {
