@@ -11,6 +11,7 @@ export default {
       totalCorrect: 0,
       questions: [
         {
+          id_q: 1,
           q: 'Что такое лобзик?',
           answers: [
             {
@@ -32,6 +33,7 @@ export default {
           ]
         },
         {
+          id_q: 2,
           q: 'Для каких работ лучше всего подходит шуруповёрт?',
           answers: [
             {
@@ -53,6 +55,7 @@ export default {
           ]
         },
         {
+          id_q: 3,
           q: 'Вам нужно установить полку горизонтально. Какой инструмент вы используете?',
           answers: [
             {
@@ -74,6 +77,7 @@ export default {
           ]
         },
         {
+          id_q: 4,
           q: 'Какой инструмент используется для создания декоративных кромок на деталях из дерева?',
           answers: [
             {
@@ -95,6 +99,7 @@ export default {
           ]
         },
         {
+          id_q: 5,
           q: 'Какой из инструментов надо использовать для сверления стен?',
           answers: [
             {
@@ -116,6 +121,7 @@ export default {
           ]
         },
         {
+          id_q: 6,
           q: 'Вам нужно установить кронштейн для полки так, чтобы он был строго вертикален. Как вы это проверите?',
           answers: [
             {
@@ -137,6 +143,7 @@ export default {
           ]
         },
         {
+          id_q: 7,
           q: 'Как правильно использовать лобзик для вырезания фигуры из деревянной плиты по контуру?',
           answers: [
             {
@@ -158,6 +165,7 @@ export default {
           ]
         },
         {
+          id_q: 8,
           q: 'При использовании лазерного уровня для установки полок, что является ключевым этапом для обеспечения их горизонтальности?',
           answers: [
             {
@@ -179,6 +187,7 @@ export default {
           ]
         },
         {
+          id_q: 9,
           q: 'При создании декоративного канта на деревянной доске с помощью ручного фрезера, что из нижеперечисленного НЕ является правилом безопасности?',
           answers: [
             {
@@ -200,6 +209,7 @@ export default {
           ]
         },
         {
+          id_q: 10,
           q: 'Вам дали новое задание, инструкции к которому вы не совсем поняли. Что вы сделаете?',
           answers: [
             {
@@ -221,6 +231,7 @@ export default {
           ]
         },
         {
+          id_q: 11,
           q: 'Ваша последняя работа была с ошибками, и вам об этом сказали. Ваше отношение к этому?',
           answers: [
             {
@@ -242,6 +253,7 @@ export default {
           ]
         },
         {
+          id_q: 12,
           q: 'Как вы относитесь к обучению новым навыкам?',
           answers: [
             {
@@ -263,6 +275,7 @@ export default {
           ]
         },
         {
+          id_q: 13,
           q: 'Вы нашли более быстрый способ выполнения вашей задачи, но он несколько отличается от стандартной процедуры. Что вы сделаете?',
           answers: [
             {
@@ -284,6 +297,7 @@ export default {
           ]
         },
         {
+          id_q: 14,
           q: 'Если бы вы могли изменить один аспект своего прошлого профессионального опыта, чтобы это было?',
           answers: [
             {
@@ -305,6 +319,7 @@ export default {
           ]
         },
         {
+          id_q: 15,
           q: 'Какие шаги вы предпринимаете, чтобы обеспечить безопасность в рабочем месте и при сборке мебели?',
           answers: [
             {
@@ -326,6 +341,7 @@ export default {
           ]
         },
         {
+          id_q: 16,
           q: 'Как вы относитесь к соблюдению сроков выполнения работ?',
           answers: [
             {
@@ -347,6 +363,7 @@ export default {
           ]
         },
         {
+          id_q: 17,
           q: 'Как вы реагируете на обнаружение ошибок или дефектов в мебели в процессе сборки?',
           answers: [
             {
@@ -368,6 +385,7 @@ export default {
           ]
         },
         {
+          id_q: 18,
           q: 'Как вы реагируете на запросы клиентов и их пожелания по сборке мебели?',
           answers: [
             {
@@ -389,6 +407,7 @@ export default {
           ]
         },
         {
+          id_q: 19,
           q: 'Клиент утверждает, что вы поцарапали его новый паркет при сборке мебели. Вы уверены, что не делали этого. Ваша реакция?',
           answers: [
             {
@@ -410,6 +429,7 @@ export default {
           ]
         },
         {
+          id_q: 20,
           q: 'Вы заметили, что у клиента маленькие дети, которые интересуются вашим инструментом. Как вы поступите?',
           answers: [
             {
@@ -431,6 +451,7 @@ export default {
           ]
         },
         {
+          id_q: 21,
           q: 'Клиент неоднократно вмешивается в вашу работу и дает советы, как лучше собрать мебель. Ваш ответ?',
           answers: [
             {
@@ -452,6 +473,7 @@ export default {
           ]
         },
         {
+          id_q: 22,
           q: 'После завершения работы клиент говорит, что он ожидал лучшего результата. Ваши действия?',
           answers: [
             {
@@ -473,6 +495,7 @@ export default {
           ]
         },
         {
+          id_q: 23,
           q: 'Во время работы вы получили звонок от другого клиента. Как вы поступите?',
           answers: [
             {
@@ -531,7 +554,8 @@ export default {
 <template>
   <div class="flex flex-col h-screen justify-between">
     <nav
-      class="flex flex-nowrap items-center justify-between w-full py-8 px-8 md:py-6 border-b-2 md:px-16 text-lg font-bold text-gray-700 bg-white">
+      class="flex flex-nowrap items-center justify-between w-full py-8 px-8 md:py-6 border-b-2 md:px-16 text-lg font-bold text-gray-700 bg-white"
+    >
       <IconAlternativeLogo />
       <div class="md:flex md:items-center md:w-auto" id="menu">
         <ul class="flex text-base text-gray-700 md:flex md:justify-between md:pt-0">
@@ -545,8 +569,12 @@ export default {
       </div>
     </nav>
     <TransitionGroup name="fade" mode="out-in">
-      <div class="flex flex-col h-screen justify-between mb-auto" v-for="(question, qi) in questions" :key="qi"
-        v-show="questionsAnswered === qi">
+      <div
+        class="flex flex-col h-screen justify-between mb-auto"
+        v-for="(question, qi) in questions"
+        :key="qi"
+        v-show="questionsAnswered === qi"
+      >
         <main class="flex flex-col md:flex-row mb-auto h-full">
           <div class="w-full md:w-1/2 p-8 md:p-16">
             <div class="flex gap-8 mb-24">
@@ -562,8 +590,10 @@ export default {
           <div class="bg-[#EEEEEE] p-8 md:p-16 md:w-1/2 flex flex-col gap-4">
             <div
               class="border-2 rounded-lg bg-white px-16 py-5 hover:text-white active:text-white hover:bg-gradient-to-r from-[#ff512f] to-[#dd2476] active:bg-gradient-to-r from-[#ff512f] to-[#dd2476]"
-              v-for="(answer, answerInd) in question.answers" :key="answerInd"
-              @click.prevent="selectAnswer(answer.is_correct)">
+              v-for="(answer, answerInd) in question.answers"
+              :key="answerInd"
+              @click.prevent="selectAnswer(answer.is_correct)"
+            >
               <div>
                 {{ answer.text }}
               </div>
@@ -575,12 +605,16 @@ export default {
     <footer class="h-24 flex items-center justify-between px-8 py-8 md:px-16 border-t-2">
       <div class="text-xs md:text-2xl">
         Вопрос:
-        <span class="text-xs md:text-2xl font-bold">{{ questionsAnswered }} / {{ questions.length }}</span>
+        <span class="text-xs md:text-2xl font-bold"
+          >{{ questionsAnswered }} / {{ questions.length }}</span
+        >
       </div>
       <div class="w-4/5">
         <div class="h-1 md:h-2 rounded-full bg-gray-200">
-          <div class="h-1 md:h-2 rounded-full bg-gradient-to-r from-[#ff512f] to-[#dd2476]"
-            :style="{ width: `${(questionsAnswered / questions.length) * 100}%` }"></div>
+          <div
+            class="h-1 md:h-2 rounded-full bg-gradient-to-r from-[#ff512f] to-[#dd2476]"
+            :style="{ width: `${(questionsAnswered / questions.length) * 100}%` }"
+          ></div>
         </div>
       </div>
     </footer>
