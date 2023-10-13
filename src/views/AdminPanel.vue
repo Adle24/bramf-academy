@@ -52,7 +52,7 @@
                 <td class="highlight">{{ user.username }}</td>
                 <td class="highlight">{{ user.phone }}</td>
                 <td>{{ user.created_at }}</td>
-                <td class="highlight">{{ user.user_corrects }} / {{ user.user_answered }}</td>
+                <td class="highlight">{{ user.user_corrects }}</td>
                 <td>{{ user.questions_total }}</td>
               </tr>
             </tbody>
