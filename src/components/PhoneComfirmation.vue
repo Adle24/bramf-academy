@@ -23,7 +23,6 @@ export default {
       if (this.countDown > 0) {
         setTimeout(() => {
           this.countDown -= 1
-          // console.log(this.countDown)
           if (this.countDown == 0) {
             this.show_resend = true
           }

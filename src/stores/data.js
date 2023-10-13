@@ -4,9 +4,12 @@ import { defineStore } from 'pinia'
 
 export const useDataStore = defineStore('data', {
   state: () => ({
-    isLogged: 0,
     firstLoad: 0,
-    userList: [],
+    userList: null,
+    isLogged: localStorage.isLogged !== undefined,
+    userName: localStorage.userName === undefined ? 'No name' : localStorage.userName,
+    userInfo: localStorage.userInfo === undefined ? null : JSON.parse(localStorage.userInfo),
+    token: localStorage.token === undefined ? null : localStorage.token,
 
     questions: null,
 
@@ -26,8 +29,44 @@ export const useDataStore = defineStore('data', {
   }),
   getters: {},
   actions: {
-    setTestName(testNameParam) {
-      this.testName = testNameParam
+    SET_IS_LOGGED({ userName = 'No name', userInfo = null, token = null }) {
+      this.isLogged = true
+      localStorage.setItem('isLogged', 'true')
+      this.userName = userName
+      this.userInfo = userInfo
+      localStorage.setItem('userName', userName)
+      localStorage.setItem('userInfo', JSON.stringify(userInfo))
+      localStorage.setItem('token', token)
+
+      this.token = token
+    },
+    LOGOUT() {
+      this.isLogged = false
+      localStorage.removeItem('isLogged')
+      this.userName = 'No name'
+      this.userInfo = null
+      localStorage.removeItem('userName')
+      localStorage.removeItem('userInfo')
+      localStorage.removeItem('token')
+
+      this.token = null
+    },
+    async GET_RESULTS() {
+      return new Promise((resolve) => {
+        axios
+          .get('api/admin/results')
+          .then((response) => {
+            if (response['status'] === 200) {
+              this.userList = response.data
+              resolve(true)
+            } else {
+              resolve(false)
+            }
+          })
+          .catch((error) => {
+            resolve(false)
+          })
+      })
     },
 
     registerAndSendSms(payload) {
@@ -90,7 +129,6 @@ export const useDataStore = defineStore('data', {
             }
           })
           .catch((error) => {
-            console.log(error)
             resolve(false)
           })
       })
@@ -107,9 +145,7 @@ export const useDataStore = defineStore('data', {
       await axios
         .post('/api/question/answer', payload)
         .then((response) => {
-          console.log(response)
           if (response['status'] === 200) {
-            console.log('OK')
           }
         })
         .catch((error) => {})
@@ -119,9 +155,7 @@ export const useDataStore = defineStore('data', {
       await axios
         .post('/api/register', payload)
         .then((response) => {
-          console.log(response)
           if (response['status'] === 200) {
-            console.log('OK')
           }
         })
         .catch((error) => {})

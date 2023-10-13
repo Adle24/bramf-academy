@@ -30,6 +30,11 @@ export default {
       if (this.countDown > 0) {
         setTimeout(() => {
           this.countDown -= 1
+          if (this.countDown <= 0) {
+            return this.$router.push('/finish').then(() => {
+              this.$router.go()
+            })
+          }
           this.countDownTimer()
         }, 1000)
       }
@@ -40,7 +45,9 @@ export default {
       this.postQuestion(question_id, answer_id)
 
       if (this.questionsAnswered === this.questions.length) {
-        this.$router.push('/finish')
+        this.$router.push('/finish').then(() => {
+          this.$router.go()
+        })
       }
     }
   },

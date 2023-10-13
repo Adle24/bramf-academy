@@ -14,7 +14,9 @@ const CONFIG = {
   plugins: [vue()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@comp': fileURLToPath(new URL('./src/components', import.meta.url)),
+      '@UI': fileURLToPath(new URL('./src/components/UI', import.meta.url))
     }
   }
 }

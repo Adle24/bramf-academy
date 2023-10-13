@@ -51,7 +51,7 @@ const router = createRouter({
       name: 'Admin',
       component: AdminPanel,
       meta: {
-        login: false
+        login: true
       }
     },
     {
