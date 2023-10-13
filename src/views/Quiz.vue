@@ -39,10 +39,10 @@ export default {
         }, 1000)
       }
     },
-    selectAnswer(question_id, answer_id) {
+    async selectAnswer(question_id, answer_id) {
       this.questionsAnswered++
 
-      this.postQuestion(question_id, answer_id)
+      await this.postQuestion(question_id, answer_id)
 
       if (this.questionsAnswered === this.questions.length) {
         this.$router.push('/finish').then(() => {

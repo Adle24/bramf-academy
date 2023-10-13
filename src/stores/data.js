@@ -134,7 +134,7 @@ export const useDataStore = defineStore('data', {
       })
     },
 
-    async postQuestion(questionId, answerId) {
+    postQuestion(questionId, answerId) {
       const payload = {
         id_question: questionId,
         id_answer: answerId,
@@ -142,13 +142,20 @@ export const useDataStore = defineStore('data', {
         phone: this.loginForm.phone
       }
 
-      await axios
-        .post('/api/question/answer', payload)
-        .then((response) => {
-          if (response['status'] === 200) {
-          }
-        })
-        .catch((error) => {})
+      return new Promise((resolve) => {
+        axios
+          .post('/api/question/answer', payload)
+          .then((response) => {
+            if (response['status'] === 200) {
+              resolve(true)
+            } else {
+              resolve(false)
+            }
+          })
+          .catch((error) => {
+            resolve(false)
+          })
+      })
     },
 
     async sendSms(payload) {
