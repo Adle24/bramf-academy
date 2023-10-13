@@ -35,7 +35,7 @@ export default {
 
 <template>
   <nav
-    class="flex flex-nowrap items-center justify-between w-full pt-2 px-8 md:pt-9 md:px-16 font-bold text-gray-700 bg-white"
+    class="flex flex-nowrap items-center justify-between w-full pt-2 px-8 md:pt-20 md:px-[100px] font-bold text-gray-700 bg-white"
   >
     <IconLogo />
     <div class="md:flex md:items-center md:w-auto" id="menu">
@@ -51,10 +51,10 @@ export default {
       </ul>
     </div>
   </nav>
-  <main class="flex flex-col md:flex-row">
-    <div class="w-full md:w-1/2 p-8 md:p-16 order-2 md:order-1">
-      <h3 class="font-roboto font-normal text-sm md:text-xl mb-2">Академия «BRAMF ACADEMY»</h3>
-      <h1 class="font-roboto text-2xl md:text-5xl font-bold mb-4">
+  <main class="flex flex-col md:flex-row md:gap-12 w-full">
+    <div class="w-full md:w-1/2 p-8 md:px-[100px] order-2 md:order-1">
+      <h3 class="font-roboto font-normal text-sm md:text-xl md:mb-4">Академия «BRAMF ACADEMY»</h3>
+      <h1 class="font-roboto text-2xl md:text-5xl font-bold mb-4 md:mb-10 md:leading-tight">
         Присоединяйтесь к команде BRAMF!
       </h1>
       <adjustment v-if="testName === 'adjustment'" />
@@ -63,14 +63,14 @@ export default {
       <div>
         <RouterLink to="/signup/form">
           <button
-            class="font-roboto w-full md:w-2/3 bg-gradient-to-r from-[#ff512f] to-[#dd2476] text-white md:text-lg font-semibold py-2 px-4 rounded-lg"
+            class="font-roboto md:mt-[30px] w-full md:w-auto bg-gradient-to-r from-[#ff512f] to-[#dd2476] text-white md:text-lg font-semibold py-2 px-4 md:py-3 md:px-10 rounded-lg"
           >
             Пройти тестирование
           </button>
         </RouterLink>
       </div>
     </div>
-    <div class="w-full md:w-1/2 p-4 md:order-2">
+    <div class="w-full md:w-1/2 p-4 md:px-[100px] md:order-2">
       <img
         src="../assets/images/adjustment.png"
         v-if="testName === 'adjustment'"

@@ -7,6 +7,7 @@ export default {
     return {
       countDown: 30,
       show_resend: false,
+      show_alert: false,
       code1: null,
       code2: null,
       code3: null,
@@ -42,6 +43,7 @@ export default {
       )
       if (result) return this.$router.push('/quiz')
 
+      this.show_alert = true
       return this.onReset()
     },
 
@@ -98,71 +100,69 @@ export default {
 }
 </script>
 <template>
-  <RouterLink to="/signup/form">
-    <button
-      class="flex flex-row items-center justify-evenly w-full md:w-1/3 border-none border-gray-700 rounded-md outline-none py-1 bg-gray-100 text-gray-700 text-md font-semibold"
-    >
-      <i class="hidden">&larr;</i> Назад к вводу данных
-    </button>
-  </RouterLink>
+  <div class="md:w-[600px]">
+    <RouterLink to="/signup/form">
+      <button
+        class="flex flex-row items-center justify-evenly w-full md:w-1/3 border-none border-gray-700 rounded-md outline-none py-1 bg-gray-100 text-gray-700 text-md font-semibold"
+      >
+        <i class="hidden">&larr;</i> Назад к вводу данных
+      </button>
+    </RouterLink>
 
-  <h3 class="font-roboto text-sm md:text-base mt-24 mb-2">Академия «BRAMF ACADEMY»</h3>
-  <h1 class="text-2xl md:text-5xl font-bold mb-4 text-[#333333]">Введите код из СМС</h1>
-  <p class="font-roboto text-slate-700 mb-10 md:text-base text-[#77777] font-normal leading-5">
-    На номер <span class="font-bold">{{ this.loginForm.phone }}</span> было отправлено SMS с кодом
-    для подтверждения регистрации
-  </p>
-  <div>
-    <form @submit="onSubmit" @reset="onReset">
-      <div class="flex flex-col space-y-6">
-        <div class="font-roboto font-medium text-md md:text-sm">Код из СМС</div>
-        <div id="otp" class="flex flex-row items-center justify-between w-full max-w-xs">
-          <div class="w-16 h-16">
-            <input
-              v-model="code1"
-              class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
-              type="tel"
-              id="first"
-            />
+    <h3 class="font-roboto text-sm md:text-base mt-24 mb-2">Академия «BRAMF ACADEMY»</h3>
+    <h1 class="text-2xl md:text-5xl font-bold mb-4 text-[#333333]">Введите код из СМС</h1>
+    <p class="font-roboto text-slate-700 mb-10 md:text-base text-[#77777] font-normal leading-5">
+      На номер <span class="font-bold">{{ this.loginForm.phone }}</span> было отправлено SMS с кодом
+      для подтверждения регистрации
+    </p>
+    <div>
+      <form @submit="onSubmit" @reset="onReset">
+        <div class="flex flex-col space-y-6">
+          <div class="font-roboto font-medium text-md md:text-sm">Код из СМС</div>
+          <div id="otp" class="flex flex-row items-center justify-between w-full max-w-xs">
+            <div class="w-16 h-16">
+              <input
+                v-model="code1"
+                class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
+                type="tel"
+                id="first"
+              />
+            </div>
+            <div class="w-16 h-16">
+              <input
+                v-model="code2"
+                class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
+                type="tel"
+                id="second"
+              />
+            </div>
+            <div class="w-16 h-16">
+              <input
+                v-model="code3"
+                class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
+                type="tel"
+                id="third"
+              />
+            </div>
+            <div class="w-16 h-16">
+              <input
+                v-model="code4"
+                class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
+                type="tel"
+                id="fourth"
+              />
+            </div>
           </div>
-          <div class="w-16 h-16">
-            <input
-              v-model="code2"
-              class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
-              type="tel"
-              id="second"
-            />
-          </div>
-          <div class="w-16 h-16">
-            <input
-              v-model="code3"
-              class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
-              type="tel"
-              id="third"
-            />
-          </div>
-          <div class="w-16 h-16">
-            <input
-              v-model="code4"
-              class="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-300 text-lg bg-white focus:bg-gray-50 focus:ring-1 caret-[#ef7f1a] ring-[#ef7f1a]"
-              type="tel"
-              id="fourth"
-            />
-          </div>
+          <p v-if="show_alert" class="text-xs text-red-500">Неверный код изи СМС сообщения</p>
         </div>
-
-        <div class="flex flex-col space-y-8">
+        <div class="flex flex-col space-y-8 md:mt-20">
           <div>
-            <!-- <RouterLink to="/quiz"> -->
             <button
               type="submit"
               class="font-roboto flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-gradient-to-r from-[#ff512f] to-[#dd2476] border-none text-white text-sm shadow-sm"
             >
               Подтвердить номер
             </button>
-            <!-- </RouterLink> -->
-
-            <!-- </RouterLink> -->
           </div>
           <div>
             <button
@@ -180,7 +180,7 @@ export default {
             </button>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </template>
