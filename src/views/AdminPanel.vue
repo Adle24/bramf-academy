@@ -150,16 +150,19 @@ export default {
   table {
     width: 100%;
 
+    td {
+      padding: 0 8px;
+      white-space: nowrap;
+    }
+
     thead {
       tr {
         height: 40px;
-        white-space: nowrap;
       }
     }
     tbody {
       tr {
         height: 60px;
-        white-space: nowrap;
       }
 
       tr:hover {
