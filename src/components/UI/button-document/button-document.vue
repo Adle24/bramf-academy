@@ -28,7 +28,7 @@ export default {
           ФИО: user.username,
           'Номер телефона': user.phone,
           'Дата регистрации': user.created_at,
-          'Правильных/Всего ответов': user.user_corrects,
+          'Правильных ответов': user.user_corrects,
           'Всего вопросов': user.questions_total
         }
       })
