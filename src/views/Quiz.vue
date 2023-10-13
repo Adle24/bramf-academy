@@ -137,13 +137,6 @@ export default {
 </template>
 
 <style scoped>
-/* .fade-enter-from, .fade-leave-to {
-  opacity: 0;
-  transform: translateX(300%);
-}
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 1s, transform 2s;
-} */
 .fade-enter-from {
   opacity: 0;
 }

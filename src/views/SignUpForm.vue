@@ -10,7 +10,7 @@ export default {
 
 <template>
   <nav
-    class="flex flex-nowrap items-center justify-between w-full py-8 px-8 md:py-6 border-b-2 md:px-16 text-lg font-bold text-gray-700 bg-white"
+    class="flex flex-nowrap items-center justify-between w-full py-8 px-8 md:py-6 md:pl-[100px] border-b-2 md:px-16 text-lg font-bold text-gray-700 bg-white"
   >
     <IconAlternativeLogo />
     <div class="md:flex md:items-center md:w-auto" id="menu">
@@ -25,7 +25,7 @@ export default {
     </div>
   </nav>
   <main class="flex flex-col md:flex-row">
-    <div class="w-full md:w-1/2 p-8 md:p-16 order-2 md:order-1">
+    <div class="w-full md:w-1/2 p-8 md:pl-[100px] md:pt-16 order-2 md:order-1">
       <SignForm v-if="$route.path == '/signup/form'" />
       <PhoneComfirmation v-else-if="$route.path == '/signup/phone'" />
     </div>
