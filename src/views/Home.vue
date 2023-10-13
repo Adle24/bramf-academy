@@ -24,10 +24,15 @@ export default {
     return {}
   },
   computed: {
-    ...mapWritableState(useDataStore, ['testName'])
+    ...mapWritableState(useDataStore, ['testName', 'testIds'])
   },
   mounted() {
     this.testName = this.$route.params.testName
+    if (!this.testIds[this.testName]) {
+      return this.$router.push('/').then(() => {
+        this.$router.go()
+      })
+    }
   },
   methods: {}
 }

@@ -90,7 +90,9 @@ export default {
     this.isLoading = false
 
     this.userList.sort(function (a, b) {
-      return new Date(b.created_at) - new Date(a.created_at)
+      const dateA = new Date(a.created_at)
+      const dateB = new Date(b.created_at)
+      return dateB.getTime() - dateA.getTime()
     })
   },
   unmounted() {},
@@ -117,7 +119,7 @@ export default {
   width: calc(100% + 40px);
   margin: 0 -20px;
 
-  height: 100%;
+  height: calc(100% - 20px);
   overflow: auto;
 
   .loading {
@@ -151,11 +153,13 @@ export default {
     thead {
       tr {
         height: 40px;
+        white-space: nowrap;
       }
     }
     tbody {
       tr {
         height: 60px;
+        white-space: nowrap;
       }
 
       tr:hover {
