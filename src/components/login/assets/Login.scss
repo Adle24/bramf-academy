@@ -1,0 +1,145 @@
+@import '../../../../node_modules/bootstrap/scss/bootstrap';
+@import '../../../../node_modules/bootstrap-vue-next/src/styles/styles.scss';
+
+.row {
+  display: flex;
+  justify-content: center;
+}
+
+.login-background {
+  background: url('/images/background_login.svg');
+  background-size: cover;
+  background-position: center;
+}
+
+.container__login__wrapper {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 66px 44px;
+  max-height: 100%;
+  width: 400px;
+  font-family: 'Source Sans Pro', sans-serif;
+
+  .logo {
+    max-width: 250px;
+    max-height: 60px;
+  }
+
+  .btn-login {
+    width: 164px;
+    height: 40px;
+    background-color: #ef7f1a;
+    border: none;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    color: #fff;
+  }
+
+  .form-label {
+    position: absolute;
+    padding: 0 2px;
+    margin-top: -45px !important;
+    margin-left: 49px !important;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: #b0b0b0;
+    background-color: #fff;
+  }
+
+  .title {
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 50px;
+    color: #333;
+  }
+
+  .about {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    color: #757575;
+  }
+
+  .save_login {
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 19px;
+    color: #777;
+  }
+
+  .forget_password {
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: #ef7f1a;
+  }
+
+  .form-control {
+    padding: 0;
+    border: none;
+    width: auto;
+    box-shadow: none;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  #input_login,
+  #input_password {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: #333;
+  }
+
+  .form-check-input {
+    width: 18px;
+    height: 18px;
+    border-radius: 2px;
+    box-shadow: none;
+    &:checked {
+      background-color: #ef7f1a;
+    }
+  }
+
+  .custom-form {
+    display: flex;
+    width: 312px;
+    height: 55px;
+    border: 2px solid #b0b0b0;
+    border-radius: 15px;
+    .form-icon {
+      margin: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .wrong-login-password {
+    text-align: center;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: 0.5px;
+    color: #d42f26;
+  }
+}
+
+.wrong {
+  .custom-form {
+    border-color: #d42f26 !important;
+    .form-label {
+      color: #d42f26 !important;
+    }
+  }
+}

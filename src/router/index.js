@@ -6,6 +6,9 @@ import Result from '../views/Result.vue'
 import PhoneComfirmation from '../components/PhoneComfirmation.vue'
 import SignForm from '../components/SignForm.vue'
 
+import AdminPanel from '../views/AdminPanel.vue'
+import { Login } from '../components/login'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -14,6 +17,7 @@ const router = createRouter({
       name: 'home',
       component: Home
     },
+
     {
       path: '/signup',
       name: 'signup',
@@ -29,15 +33,34 @@ const router = createRouter({
         }
       ]
     },
+
     {
       path: '/quiz',
       name: 'quiz',
       component: Quiz
     },
+
     {
       path: '/finish',
       name: 'finish',
       component: Result
+    },
+
+    {
+      path: '/admin_panel',
+      name: 'Admin',
+      component: AdminPanel,
+      meta: {
+        login: false
+      }
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
+      meta: {
+        login: false
+      }
     }
   ]
 })

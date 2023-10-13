@@ -1,12 +1,22 @@
-import { defineStore } from 'pinia'
 import axios from 'axios'
+
+import { defineStore } from 'pinia'
 
 export const useDataStore = defineStore('data', {
   state: () => ({
+    isLogged: 0,
+    firstLoad: 0,
+    userList: [],
+
     questions: null,
-    phoneStore: '+7(778)081-66-49',
-    iinStore: '',
-    nameStore: '',
+
+    verify: null,
+    loginForm: {
+      username: null,
+      phone: null,
+      iin: null
+    },
+
     testName: null,
     testIds: {
       adjustment: 1,
@@ -14,37 +24,18 @@ export const useDataStore = defineStore('data', {
       seller: 3
     }
   }),
-  getters: {
-    processedQuestions(state) {
-      console.log(this.questions)
-      return state.questions
-    }
-  },
+  getters: {},
   actions: {
     setTestName(testNameParam) {
       this.testName = testNameParam
     },
-    setPhone(phoneParam) {
-      this.phoneStore = phoneParam
-    },
-    setIIN(iinParam) {
-      this.iinStore = iinParam
-    },
-    setName(nameParam) {
-      this.nameStore = nameParam
-    },
-    registerAndSendSms(phone, iin, name) {
-      return new Promise(async (resolve, reject) => {
-        await axios
-          .post('http://185.146.3.144:8888/api/register', {
-            phone: phone,
-            iin: iin,
-            username: name
-          })
+
+    registerAndSendSms(payload) {
+      return new Promise((resolve) => {
+        axios
+          .post('/api/register', payload)
           .then((response) => {
-            console.log(response)
             if (response['status'] === 200) {
-              console.log('OK')
               resolve(true)
             } else {
               resolve(false)
@@ -57,14 +48,17 @@ export const useDataStore = defineStore('data', {
     },
 
     verifyPhone(phone, code) {
-      return new Promise(async (resolve, reject) => {
-        await axios
-          .post('http://185.146.3.144:8888/api/verify', {
-            phone: phone,
-            code: code
-          })
+      return new Promise((resolve) => {
+        const payload = {
+          phone: phone,
+          code: code
+        }
+
+        axios
+          .post('/api/verify', payload)
           .then((response) => {
             if (response['status'] === 200) {
+              this.verify = true
               resolve(true)
             } else {
               resolve(false)
@@ -77,36 +71,41 @@ export const useDataStore = defineStore('data', {
     },
 
     async getQuestions() {
-      const data = await axios
-        .get('http://185.146.3.144:8888/api/question/list', {
+      return new Promise((resolve) => {
+        const payload = {
           params: {
-            phone: this.phoneStore,
+            phone: this.loginForm.phone,
             id_test_list: this.testIds[this.testName]
           }
-        })
-        .then((response) => {
-          if (response['status'] === 200) {
-            this.questions = response.data.questions
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-        .finally(() => {
-          // always executed
-          console.log(this.questions)
-        })
-      console.log(data)
+        }
+
+        axios
+          .get('/api/question/list', payload)
+          .then((response) => {
+            if (response['status'] === 200) {
+              this.questions = response.data.questions
+              resolve(true)
+            } else {
+              resolve(false)
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+            resolve(false)
+          })
+      })
     },
 
     async postQuestion(questionId, answerId) {
+      const payload = {
+        id_question: questionId,
+        id_answer: answerId,
+        id_test_list: this.testIds[this.testName],
+        phone: this.loginForm.phone
+      }
+
       await axios
-        .post('http://185.146.3.144:8888/api/question/answer', {
-          id_question: questionId,
-          id_answer: answerId,
-          id_test_list: this.testIds[this.testName],
-          phone: this.phoneStore
-        })
+        .post('/api/question/answer', payload)
         .then((response) => {
           console.log(response)
           if (response['status'] === 200) {
@@ -116,13 +115,9 @@ export const useDataStore = defineStore('data', {
         .catch((error) => {})
     },
 
-    async sendSms(phone, iin, name) {
+    async sendSms(payload) {
       await axios
-        .post('http://185.146.3.144:8888/api/register', {
-          phone: phone,
-          iin: iin,
-          username: name
-        })
+        .post('/api/register', payload)
         .then((response) => {
           console.log(response)
           if (response['status'] === 200) {

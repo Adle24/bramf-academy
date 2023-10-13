@@ -1,6 +1,6 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router'
-import { mapActions } from 'pinia'
+import { mapWritableState } from 'pinia'
 import { useDataStore } from '../stores/data'
 
 import IconLogo from '../components/icons/IconLogo.vue'
@@ -21,16 +21,15 @@ export default {
     seller
   },
   data() {
-    return {
-      testName: this.$route.params.testName
-    }
+    return {}
   },
-  methods: {
-    ...mapActions(useDataStore, ['setTestName'])
+  computed: {
+    ...mapWritableState(useDataStore, ['testName'])
   },
-  unmounted() {
-    this.setTestName(this.testName)
-  }
+  mounted() {
+    this.testName = this.$route.params.testName
+  },
+  methods: {}
 }
 </script>
 

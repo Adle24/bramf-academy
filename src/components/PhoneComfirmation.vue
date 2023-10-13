@@ -13,28 +13,12 @@ export default {
       code4: null
     }
   },
-  watch: {
-    // code1: {
-    //   handler() {
-    //     this.$refs.code2.focus()
-    //   }
-    // },
-    // code2: {
-    //   handler() {
-    //     this.$refs.code3.focus()
-    //   }
-    // },
-    // code3: {
-    //   handler() {
-    //     this.$refs.code4.focus()
-    //   }
-    // }
-  },
+  watch: {},
   computed: {
-    ...mapState(useDataStore, ['phoneStore', 'nameStore', 'iinStore'])
+    ...mapState(useDataStore, ['loginForm'])
   },
   methods: {
-    ...mapActions(useDataStore, ['verifyPhone', 'registerAndSendSms', 'sendSms']),
+    ...mapActions(useDataStore, ['verifyPhone', 'sendSms']),
     countDownTimer() {
       if (this.countDown > 0) {
         setTimeout(() => {
@@ -54,7 +38,7 @@ export default {
       if (!this.code1 || !this.code2 || !this.code3 || !this.code4) return this.onReset()
 
       const result = await this.verifyPhone(
-        this.phoneStore,
+        this.loginForm.phone,
         this.code1 + this.code2 + this.code3 + this.code4
       )
       if (result) return this.$router.push('/quiz')
@@ -126,8 +110,8 @@ export default {
   <h3 class="font-roboto text-sm md:text-base mt-24 mb-2">Академия «BRAMF ACADEMY»</h3>
   <h1 class="text-2xl md:text-5xl font-bold mb-4 text-[#333333]">Введите код из СМС</h1>
   <p class="font-roboto text-slate-700 mb-10 md:text-base text-[#77777] font-normal leading-5">
-    На номер <span class="font-bold">{{ this.phoneStore }}</span> было отправлено SMS с кодом для
-    подтверждения регистрации
+    На номер <span class="font-bold">{{ this.loginForm.phone }}</span> было отправлено SMS с кодом
+    для подтверждения регистрации
   </p>
   <div>
     <form @submit="onSubmit" @reset="onReset">
@@ -190,13 +174,7 @@ export default {
             </button>
             <button
               v-if="show_resend"
-              @click="
-                sendSms(
-                  this.phoneStore.replace(/\s/g, ''),
-                  this.iinStore.replace(/\s/g, ''),
-                  this.nameStore
-                )
-              "
+              @click="sendSms(this.loginForm)"
               class="flex flex-row items-center justify-center text-center w-full border-2 border-[#F46B45] rounded-xl outline-none py-5 bg-white-700 text-[#F46B45] text-sm shadow-sm"
             >
               Отправить код повторно

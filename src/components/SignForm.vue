@@ -2,33 +2,52 @@
 import { mapActions, mapWritableState } from 'pinia'
 import { useDataStore } from '../stores/data'
 
-import { vMaska } from 'maska'
+import { vMaska, Mask } from 'maska'
 
 export default {
   name: 'SignForm',
   data() {
     return {
-      phone: null,
-      name: null,
-      iin: null
+      form: {
+        username: null,
+        phone: null,
+        iin: null
+      }
     }
   },
   directives: { maska: vMaska },
+  computed: {
+    ...mapWritableState(useDataStore, ['loginForm'])
+  },
+  mounted() {
+    if (this.loginForm) Object.assign(this.form, this.loginForm)
+  },
   methods: {
-    ...mapActions(useDataStore, ['registerAndSendSms', 'setPhone', 'setIIN', 'setName']),
-    ...mapWritableState(useDataStore, ['phoneStore']),
+    ...mapActions(useDataStore, ['registerAndSendSms']),
+
+    validate(form) {
+      for (const key in form) {
+        const element = form[key]
+        if (!element) return false
+      }
+      return true
+    },
 
     async onSubmit(evt) {
       evt.preventDefault()
+      if (!this.validate(this.form)) return alert('Заполните все поля')
 
-      if (this.phone) this.phone = this.phone.replaceAll(' ', '')
-      if (this.iin) this.iin = this.iin.replaceAll(' ', '')
+      const phoneUnmasked = new Mask({ mask: '+# (###) ###-##-##' }).unmasked(this.form.phone)
+      const iinUnmasked = new Mask({ mask: '### ### ### ###' }).unmasked(this.form.iin)
 
-      if (!this.phone || !this.name || !this.iin) return alert('Заполните все поля')
-      if (this.phone.length != 16) return alert('Неправильный номер телефона')
-      if (this.iin.length != 12) return alert('Неправильный ИНН')
+      if (phoneUnmasked.length != 11) return alert('Неправильный номер телефона')
+      if (iinUnmasked.length != 12) return alert('Неправильный ИНН')
 
-      const result = await this.registerAndSendSms(this.phone, this.iin, this.name)
+      this.loginForm.username = this.form.username
+      this.loginForm.phone = phoneUnmasked
+      this.loginForm.iin = iinUnmasked
+
+      const result = await this.registerAndSendSms(this.loginForm)
       if (result) return this.$router.push('/signup/phone')
       return alert('Ошибка на стороне сервера')
     },
@@ -36,15 +55,10 @@ export default {
     onReset(evt) {
       if (evt) evt.preventDefault()
 
-      this.phone = null
-      this.iin = null
-      this.name = null
+      this.form.username = null
+      this.form.phone = null
+      this.form.iin = null
     }
-  },
-  beforeUnmount() {
-    this.setPhone(this.phone)
-    this.setIIN(this.iin)
-    this.setName(this.name)
   }
 }
 </script>
@@ -64,23 +78,20 @@ export default {
       <div class="mb-4 font-roboto font-medium md:text-sm">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="username"> ФИО* </label>
         <input
-          v-model="name"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-orange-400 focus:shadow-outline"
-          id="username"
+          v-model="form.username"
           type="text"
           placeholder="Укажите ваше ФИО"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-orange-400 focus:shadow-outline"
+          id="username"
         />
       </div>
-      <!-- ref="input_phone"
-          type="tel"
-          placeholder="+7 (___) ___ - __ - __" -->
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
           Номер телефона*
         </label>
         <input
-          v-model="phone"
           v-maska
+          v-model="form.phone"
           data-maska="+7 (###) ###-##-##"
           placeholder="+7 (___) ___-__-__"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-orange-400 focus:shadow-outline"
@@ -90,8 +101,8 @@ export default {
       <div class="mb-6">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="password"> ИИН* </label>
         <input
-          v-model="iin"
           v-maska
+          v-model="form.iin"
           data-maska="### ### ### ###"
           placeholder="Укажите ваш ИИН"
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-orange-400 focus:shadow-outline"
@@ -105,7 +116,6 @@ export default {
           <span class="text-orange-300">Условиями предоставления услуг </span>
           <input type="checkbox" class="accent-orange-500 mt-1" checked
         /></label>
-        <!-- <RouterLink to="/signup/phone"> -->
         <button
           type="submit"
           class="w-full md:w-[250px] font-roboto bg-gradient-to-r from-[#ff512f] to-[#dd2476] text-white md:text-lg font-semibold py-2 px-4 rounded-lg"
