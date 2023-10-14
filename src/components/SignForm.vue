@@ -38,14 +38,14 @@ export default {
       if (!this.validate(this.form)) return alert('Заполните все поля')
 
       const phoneUnmasked = new Mask({ mask: '+# (###) ###-##-##' }).unmasked(this.form.phone)
-      const iinUnmasked = new Mask({ mask: '### ### ### ###' }).unmasked(this.form.iin)
+      const iinUnmasked = new Mask({ mask: '##.##.####' }).unmasked(this.form.iin)
 
       if (phoneUnmasked.length != 11) return alert('Неправильный номер телефона')
-      if (iinUnmasked.length != 12) return alert('Неправильный ИНН')
+      if (iinUnmasked.length != 8) return alert('Неправильный год рождения')
 
       this.loginForm.username = this.form.username
       this.loginForm.phone = phoneUnmasked
-      this.loginForm.iin = iinUnmasked
+      this.loginForm.iin = parseInt(iinUnmasked) * 10000
 
       const result = await this.registerAndSendSms(this.loginForm)
       if (result) return this.$router.push('/signup/phone')
@@ -86,9 +86,6 @@ export default {
             placeholder="Укажите ваше ФИО"
           />
         </div>
-        <!-- ref="input_phone"
-          type="tel"
-          placeholder="+7 (___) ___ - __ - __" -->
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
             Номер телефона*
@@ -97,22 +94,24 @@ export default {
             v-model="form.phone"
             v-maska
             data-maska="+7 (###) ###-##-##"
-            placeholder="+7 (___) ___-__-__"
+            placeholder="Укажите ваш номер телефона"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-orange-400 focus:shadow-outline"
             id="tel"
           />
         </div>
         <div class="mb-6">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="password"> ИИН* </label>
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+            Год рождения*
+          </label>
           <input
             v-model="form.iin"
             v-maska
-            data-maska="### ### ### ###"
-            placeholder="Укажите ваш ИИН"
+            data-maska="##.##.####"
+            placeholder="Укажите ваш год рождения"
             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-orange-400 focus:shadow-outline"
             id="IIN"
           />
-          <p class="text-red-500 text-xs italic">Должен быть 12 символов</p>
+          <!-- <p class="text-red-500 text-xs italic">Должен быть 12 символов</p> -->
         </div>
         <div class="flex flex-col md:flex-row md:gap-5 md:mt-12 items-center justify-between">
           <label class="text-sm text-gray-400 font-roboto md:order-2"
