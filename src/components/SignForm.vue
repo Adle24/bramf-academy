@@ -1,22 +1,33 @@
 <script>
-import { mapActions, mapWritableState } from 'pinia'
+import { mapActions, mapWritableState, mapState } from 'pinia'
 import { useDataStore } from '../stores/data'
 
 import { vMaska, Mask } from 'maska'
 
+import iconCheckboxSelected from '@/components/icons/iconCheckboxSelected.vue'
+import iconCheckboxUnselected from '@/components/icons/iconCheckboxUnselected.vue'
+
 export default {
   name: 'SignForm',
+  components: {
+    iconCheckboxSelected,
+    iconCheckboxUnselected
+  },
   data() {
     return {
+      agreeRules: false,
       form: {
         username: null,
         phone: null,
-        iin: null
+        birthdate: null,
+        city: 'null',
+        isReady: 0
       }
     }
   },
   directives: { maska: vMaska },
   computed: {
+    ...mapState(useDataStore, ['testName', 'cites']),
     ...mapWritableState(useDataStore, ['loginForm'])
   },
   mounted() {
@@ -26,8 +37,11 @@ export default {
     ...mapActions(useDataStore, ['registerAndSendSms']),
 
     validate(form) {
+      const notRequired = ['city', 'isReady']
+
       for (const key in form) {
         const element = form[key]
+        if (notRequired.includes(key)) continue
         if (!element) return false
       }
       return true
@@ -35,17 +49,21 @@ export default {
 
     async onSubmit(evt) {
       evt.preventDefault()
+
       if (!this.validate(this.form)) return alert('Заполните все поля')
+      if (!this.agreeRules) return alert('Пользовательское соглашение не принято')
 
       const phoneUnmasked = new Mask({ mask: '+# (###) ###-##-##' }).unmasked(this.form.phone)
-      const iinUnmasked = new Mask({ mask: '##.##.####' }).unmasked(this.form.iin)
+      const birthdateUnmasked = new Mask({ mask: '####' }).unmasked(this.form.birthdate)
 
       if (phoneUnmasked.length != 11) return alert('Неправильный номер телефона')
-      if (iinUnmasked.length != 8) return alert('Неправильный год рождения')
+      if (birthdateUnmasked.length != 4) return alert('Неправильный год рождения')
 
       this.loginForm.username = this.form.username
       this.loginForm.phone = phoneUnmasked
-      this.loginForm.iin = parseInt(iinUnmasked) * 10000
+      this.loginForm.birthdate = birthdateUnmasked
+      this.loginForm.city = this.form.city
+      this.loginForm.isReady = this.form.isReady
 
       const result = await this.registerAndSendSms(this.loginForm)
       if (result) return this.$router.push('/signup/phone')
@@ -57,7 +75,7 @@ export default {
 
       this.form.username = null
       this.form.phone = null
-      this.form.iin = null
+      this.form.birthdate = null
     }
   }
 }
@@ -99,34 +117,69 @@ export default {
             id="tel"
           />
         </div>
-        <div class="mb-6">
+        <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
             Год рождения*
           </label>
           <input
-            v-model="form.iin"
+            v-model="form.birthdate"
             v-maska
-            data-maska="##.##.####"
+            data-maska="####"
             placeholder="Укажите ваш год рождения"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-orange-400 focus:shadow-outline"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-orange-400 focus:shadow-outline"
             id="IIN"
           />
-          <!-- <p class="text-red-500 text-xs italic">Должен быть 12 символов</p> -->
         </div>
-        <div class="flex flex-col md:flex-row md:gap-5 md:mt-12 items-center justify-between">
-          <label class="text-sm text-gray-400 font-roboto md:order-2"
-            >Нажимая на блок с галочкой вы соглашаетесь с
-            <span class="text-orange-300">Условиями предоставления услуг </span>
+
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="password"> Город </label>
+          <select
+            v-model="form.city"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-orange-400 focus:shadow-outline"
+          >
+            <option v-for="city in cites[testName]" :key="city">
+              {{ city }}
+            </option>
+          </select>
+        </div>
+
+        <div class="mb-6 flex items-center">
+          <label class="text-gray-700 text-sm font-bold" for="isReady">
+            Вы готовы приступить к работе в компании BRAMF
           </label>
-          <input type="checkbox" class="accent-orange-500 mt-1 md:order-3" />
-          <!-- <RouterLink to="/signup/phone"> -->
+          <span class="ms-3" @click="form.isReady = !form.isReady" style="cursor: pointer">
+            <iconCheckboxUnselected v-if="!form.isReady" />
+            <iconCheckboxSelected v-else />
+          </span>
+        </div>
+        <div
+          class="flex flex-col-reverse gap-3 md:flex-row md:gap-7 md:mt-12 items-center justify-between"
+        >
           <button
+            v-if="agreeRules && validate(form)"
             type="submit"
-            class="w-full md:order-1 md:w-2/3 font-roboto bg-gradient-to-r from-[#ff512f] to-[#dd2476] text-white md:text-lg font-semibold py-4 px-4 rounded-lg"
+            class="w-full md:w-2/3 font-roboto bg-gradient-to-r from-[#ff512f] to-[#dd2476] text-white md:text-lg font-semibold py-4 px-4 rounded-lg"
           >
             Начать тестирование
           </button>
-          <!-- </RouterLink> -->
+          <button
+            v-else
+            type="submit"
+            class="w-full md:w-2/3 font-roboto bg-gradient-to-r from-[#D9D9D9] to-[#D9D9D9] text-white md:text-lg font-semibold py-4 px-4 rounded-lg"
+          >
+            Начать тестирование
+          </button>
+
+          <div class="w-full flex justify-between md:gap-2">
+            <label class="text-sm text-gray-400 w-52 font-roboto md:order-2"
+              >Нажимая на блок с галочкой вы соглашаетесь с
+              <span class="text-orange-300">Условиями предоставления услуг </span>
+            </label>
+            <span class="mt-1 md:order-3" @click="agreeRules = !agreeRules" style="cursor: pointer">
+              <iconCheckboxUnselected v-if="!agreeRules" />
+              <iconCheckboxSelected v-else />
+            </span>
+          </div>
         </div>
       </form>
     </div>

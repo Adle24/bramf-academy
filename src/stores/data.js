@@ -17,7 +17,9 @@ export const useDataStore = defineStore('data', {
     loginForm: {
       username: null,
       phone: null,
-      iin: null
+      birthdate: null,
+      city: 'null',
+      isReady: 0
     },
 
     testName: null,
@@ -25,6 +27,24 @@ export const useDataStore = defineStore('data', {
       adjustment: 1,
       measurer: 2,
       seller: 3
+    },
+    cites: {
+      adjustment: ['Алматы', 'Астана', 'Қарағанды'],
+      measurer: [
+        'Астана',
+        'Алматы',
+        'Қарағанды',
+        'Өскемен',
+        'Орал',
+        'Ақтау',
+        'Ақтөбе',
+        'Шымкент',
+        'Павлодар',
+        'Қостанай',
+        'Семей',
+        'Көкшетау'
+      ],
+      seller: ['Алматы']
     }
   }),
   getters: {},

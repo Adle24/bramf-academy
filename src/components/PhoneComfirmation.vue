@@ -32,6 +32,13 @@ export default {
       }
     },
 
+    resend() {
+      this.countDown = 30
+      this.show_resend = false
+      this.countDownTimer()
+      this.sendSms(this.loginForm)
+    },
+
     async onSubmit(evt) {
       evt.preventDefault()
 
@@ -64,10 +71,9 @@ export default {
       }
     }
   },
-  created() {
-    this.countDownTimer()
-  },
   mounted() {
+    this.countDownTimer()
+
     const editor = document.getElementById('first')
     editor.onpaste = this.pasteOTP
     editor.focus()
@@ -155,7 +161,7 @@ export default {
           </div>
           <p v-if="show_alert" class="text-xs text-red-500">Неверный код изи СМС сообщения</p>
         </div>
-        <div class="flex flex-col space-y-8 md:mt-20">
+        <div class="flex flex-col space-y-8 mt-8 md:mt-20">
           <div>
             <button
               type="submit"
@@ -173,7 +179,7 @@ export default {
             </button>
             <button
               v-if="show_resend"
-              @click="sendSms(this.loginForm)"
+              @click="resend"
               class="flex flex-row items-center justify-center text-center w-full border-2 border-[#F46B45] rounded-xl outline-none py-5 bg-white-700 text-[#F46B45] text-sm shadow-sm"
             >
               Отправить код повторно
